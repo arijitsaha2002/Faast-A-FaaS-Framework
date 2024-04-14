@@ -6,9 +6,10 @@ import time
 
 config.load_kube_config()
 v1_client_api = client.CoreV1Api()
-yaml_file_name = sys.argv[1]
+pod_file = sys.argv[1]
+pod_service_file = sys.argv[2]
 
-with open(f"{yaml_file_name}.yaml") as f:
+with open(pod_file) as f:
     python_dict_config = yaml.safe_load(f)
 
 app_namespace = python_dict_config['metadata']['namespace']
@@ -34,3 +35,24 @@ while True:
     except ApiException as e:
             print(f"Exception when calling AppsV1Api -> read_namespaced_deployment_status: {e}\n")
 
+
+with open(pod_service_file) as f:
+    python_dict_config = yaml.safe_load(f)
+
+app_namespace = python_dict_config['metadata']['namespace']
+service_name = python_dict_config['metadata']['name']
+
+v1_client_api.create_namespaced_service(namespace=app_namespace, body=python_dict_config)
+v1_client_api.read_namespaced_service_status
+
+while True:
+    try:
+        response = v1_client_api.read_namespaced_service_status(name=service_name, namespace=app_namespace)
+        if response.status.load_balancer.ingress: 
+            print("Waiting for Service to become ready...")
+            time.sleep(2)
+        else:
+            print("Service Creation Completed")
+            break
+    except ApiException as e:
+            print(f"Exception when calling AppsV1Api -> read_namespaced_service_status: {e}\n")
