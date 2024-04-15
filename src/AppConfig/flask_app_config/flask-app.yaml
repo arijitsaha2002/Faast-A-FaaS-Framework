@@ -16,6 +16,7 @@ spec:
     spec:
       containers:
       - name: flask-app 
-        image: arijitsaha2002/flask_app:0.2
+        image: kube-flask
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000 

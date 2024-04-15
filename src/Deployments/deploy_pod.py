@@ -39,15 +39,13 @@ while True:
 with open(pod_service_file) as f:
     python_dict_config = yaml.safe_load(f)
 
-app_namespace = python_dict_config['metadata']['namespace']
 service_name = python_dict_config['metadata']['name']
 
-v1_client_api.create_namespaced_service(namespace=app_namespace, body=python_dict_config)
-v1_client_api.read_namespaced_service_status
+v1_client_api.create_namespaced_service(namespace='default', body=python_dict_config)
 
 while True:
     try:
-        response = v1_client_api.read_namespaced_service_status(name=service_name, namespace=app_namespace)
+        response = v1_client_api.read_namespaced_service_status(name=service_name, namespace='default')
         if response.status.load_balancer.ingress: 
             print("Waiting for Service to become ready...")
             time.sleep(2)
