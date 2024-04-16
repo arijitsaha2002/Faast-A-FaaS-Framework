@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: demo-pv
+spec:
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 1Gi
+  storageClassName: standard
+  hostPath:
+    path: /tmp/demo-pv
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: demo-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard
+  volumeName: demo-pv
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hpa-flask-app-vol
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hpa-flask-app-vol
+  template:
+    metadata:
+      labels:
+        app: hpa-flask-app-vol 
+    spec:
+      containers:
+      - name: hpa-flask-app-vol
+        image: arijitsaha2002/flask_app:0.2 
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000 
+        resources:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: 50m
+        volumeMounts:
+        - mountPath: /data
+          name: data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-dynamic
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hpa-flask-app-vol-service
+  labels:
+    app: hpa-flask-app-vol
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 5000 
+  selector:
+    app: hpa-flask-app-vol
+  type: LoadBalancer
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+ name: hpa-deployment-flask-vol
+spec:
+ scaleTargetRef:
+   apiVersion: apps/v1
+   kind: Deployment
+   name: hpa-flask-app-vol
+ minReplicas: 1
+ maxReplicas: 10
+ metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hpa-flask-vol-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: localhost 
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hpa-flask-app-vol-service
+            port:
+              number: 8080 
