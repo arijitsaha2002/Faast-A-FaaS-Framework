@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-app
-  namespace: flask-app-namespace
 spec:
   replicas: 1
   selector:
@@ -10,13 +9,69 @@ spec:
       app: flask-app
   template:
     metadata:
-      namespace: flask-app-namespace
       labels:
         app: flask-app 
     spec:
       containers:
       - name: flask-app 
-        image: kube-flask
+        image: arijitsaha2002/flask_app:0.2 
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000 
+        resources:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: 50m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app-service
+  labels:
+    app: flask-app
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 5000 
+  selector:
+    app: flask-app 
+  type: LoadBalancer
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+ name: hpa-deployment-flask 
+spec:
+ scaleTargetRef:
+   apiVersion: apps/v1
+   kind: Deployment
+   name: flask-app
+ minReplicas: 1
+ maxReplicas: 10
+ metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flask-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: localhost 
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: flask-app-service
+            port:
+              number: 8080 

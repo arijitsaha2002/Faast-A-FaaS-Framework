@@ -41,11 +41,11 @@ with open(pod_service_file) as f:
 
 service_name = python_dict_config['metadata']['name']
 
-v1_client_api.create_namespaced_service(namespace='default', body=python_dict_config)
+v1_client_api.create_namespaced_service(namespace=app_namespace, body=python_dict_config)
 
 while True:
     try:
-        response = v1_client_api.read_namespaced_service_status(name=service_name, namespace='default')
+        response = v1_client_api.read_namespaced_service_status(name=service_name, namespace=app_namespace)
         if response.status.load_balancer.ingress: 
             print("Waiting for Service to become ready...")
             time.sleep(2)
