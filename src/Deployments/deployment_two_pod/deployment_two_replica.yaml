@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hpa-flask-app
+  name: depl-flask-app
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: hpa-flask-app
+      app: depl-flask-app
   template:
     metadata:
       labels:
-        app: hpa-flask-app 
+        app: depl-flask-app 
     spec:
       containers:
-      - name: hpa-flask-app 
+      - name: depl-flask-app 
         image: arijitsaha2002/flask_app:0.2 
         imagePullPolicy: IfNotPresent
         ports:
@@ -27,41 +27,22 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-app-service
+  name: depl-flask-app-service
   labels:
-    app: hpa-flask-app
+    app: depl-flask-app
 spec:
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 5000 
   selector:
-    app: hpa-flask-app 
+    app: depl-flask-app 
   type: LoadBalancer
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
- name: hpa-deployment-flask 
-spec:
- scaleTargetRef:
-   apiVersion: apps/v1
-   kind: Deployment
-   name: hpa-flask-app
- minReplicas: 1
- maxReplicas: 10
- metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 50
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: hpa-flask-ingress
+  name: depl-flask-ingress
 spec:
   ingressClassName: nginx
   rules:
@@ -72,6 +53,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: hpa-flask-app-service
+            name: depl-flask-app-service
             port:
               number: 8080 
