@@ -16,6 +16,12 @@ spec:
         - name: vpa-flask-app
           image: arijitsaha2002/flask_app:0.2
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 5m
+              memory: 50Mi
+            limits:
+              cpu: 50m
           ports:
             - containerPort: 5000
 
@@ -45,7 +51,7 @@ spec:
     name: vpa-flask-app
   resourcePolicy:
     containerPolicies:
-      - containerName: '*'
+      - containerName: vpa-flask-app
         minAllowed:
           cpu: 10m
           memory: 10Mi
