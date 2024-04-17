@@ -2,10 +2,11 @@
 minikube start
 
 # enabling metrics-server
-minicube addons enable metrics-server
+minikube addons enable metrics-server
+minikube addons enable ingress
 
 #enbling a nginx-ingres-load-balancer
-kubectl apply -f AppConfig/ingres_nginx_config/deploy.yaml
+kubectl apply -f AppConfigs/ingres_nginx_config/deploy.yaml
 
 
 
