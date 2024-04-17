@@ -1,5 +1,9 @@
 #!/bin/bash
 # --image-name --single-file --requirements.txt --port
+if [ $# -ne 4 ]; then
+	echo "usage: ./build_image.sh image-name single-file requirements port"
+	exit 1;
+fi;
 mkdir -p /tmp/build_docker_image
 rm -rf /tmp/build_docker_image/*
 cp "$3" "$2" /tmp/build_docker_image
