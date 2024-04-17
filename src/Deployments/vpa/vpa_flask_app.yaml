@@ -18,10 +18,8 @@ spec:
           imagePullPolicy: IfNotPresent
           resources:
             requests:
-              cpu: 5m
-              memory: 50Mi
-            limits:
-              cpu: 50m
+              cpu: 1m
+              memory: 10Mi
           ports:
             - containerPort: 5000
 
@@ -53,11 +51,11 @@ spec:
     containerPolicies:
       - containerName: vpa-flask-app
         minAllowed:
-          cpu: 10m
+          cpu: 1m
           memory: 10Mi
         maxAllowed:
-          cpu: 50m
-          memory: 50Mi
+          cpu: 5m
+          memory: 30Mi
         controlledResources: ["cpu", "memory"]
 
 ---
