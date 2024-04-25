@@ -1,40 +1,25 @@
-#!/bin/bash
 
-if [ $# -ne 6 ]; then
-	echo "usage:./map_function.sh app-name image1 image2 url port1 port2"
-	exit 1
-fi;
-
-APP_NAME="$1"
-URL="$4"
-APP_TYPE="two-pod"
-IMAGE_NAME1="$2"
-IMAGE_NAME2="$3"
-PORT_NUMBER1="$5"
-PORT_NUMBER2="$6"
-
-echo "
 apiVersion: v1
 kind: Pod
 metadata:
-  name: $APP_NAME-app-1
+  name: cont-app-1
   labels:
-    app: $APP_NAME-app-1
+    app: cont-app-1
 spec:
   containers:
-  - name: $APP_NAME-container-1
-    image: $IMAGE_NAME1
+  - name: cont-container-1
+    image: arijitsaha2002/flask_app:0.2
     ports:
-    - containerPort: $PORT_NUMBER1 
+    - containerPort: 5000 
     resources:
       limits:
         memory: 50Mi
       requests:
         cpu: 20m
-  - name: $APP_NAME-container-2
-    image: $IMAGE_NAME2 
+  - name: cont-container-2
+    image: arijitsaha2002/flask_app:0.4 
     ports:
-    - containerPort: $PORT_NUMBER2
+    - containerPort: 5001
     resources:
       limits:
         memory: 50Mi
@@ -44,9 +29,9 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx-loadbalancer-$APP_NAME
+  name: nginx-loadbalancer-cont
   labels:
-    app: nginx-loadbalancer-$APP_NAME
+    app: nginx-loadbalancer-cont
 spec:
   containers:
   - name: nginx-loadbalancer-container
@@ -57,10 +42,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-loadbalancer-service-$APP_NAME
+  name: nginx-loadbalancer-service-cont
 spec:
   selector:
-    app: nginx-loadbalancer-$APP_NAME
+    app: nginx-loadbalancer-cont
   ports:
   - protocol: TCP
     port: 80  
@@ -73,19 +58,17 @@ kind: Ingress
 metadata:
   name: my-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /\$1
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   ingressClassName: nginx
   rules:
   - http:
       paths:
-      - path: /$URL/(.*)
+      - path: /cont/(.*)
         pathType: ImplementationSpecific
         backend:
           service:
-            name: nginx-loadbalancer-service-$APP_NAME
+            name: nginx-loadbalancer-service-cont
             port:
               number: 80 
-" > "$APP_NAME-$APP_TYPE".yaml
-kubectl apply -f "$APP_NAME-$APP_TYPE".yaml
 

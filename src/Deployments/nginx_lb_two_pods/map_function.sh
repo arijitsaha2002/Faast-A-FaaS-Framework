@@ -24,19 +24,29 @@ spec:
     image: $IMAGE_NAME
     ports:
     - containerPort: $PORT_NUMBER 
+    resources:
+      limits:
+        memory: 50Mi
+      requests:
+        cpu: 20m
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   name: $APP_NAME-single-pod-2
   labels:
-    app: $APP_NAME-single-pod-2 
+    app: $APP_NAME-single-pod-2
 spec:
   containers:
   - name: $APP_NAME-single-container
     image: $IMAGE_NAME
     ports:
-    - containerPort: $PORT_NUMBER 
+    - containerPort: $PORT_NUMBER
+    resources:
+      limits:
+        memory: 50Mi
+      requests:
+        cpu: 20m
 ---
 apiVersion: v1
 kind: Pod
@@ -54,7 +64,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: $APP_NAME-nginx-loadbalancer-service
+  name: $APP_NAME-nginx-service
 spec:
   selector:
     app: $APP_NAME-nginx-loadbalancer 
@@ -80,7 +90,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: $APP_NAME-nginx-loadbalancer-service
+            name: $APP_NAME-nginx-service
             port:
               number: 80 
 

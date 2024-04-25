@@ -30,7 +30,7 @@ metadata:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: $APP_NAME-node1-pod 
+  name: $APP_NAME-node1-pod
   labels:
     app: $APP_NAME-node1-pod
 spec:
@@ -39,6 +39,11 @@ spec:
     image: $IMAGE_NAME
     ports:
     - containerPort: $PORT_NUMBER
+    resources:
+      limits:
+        memory: 50Mi
+      requests:
+        cpu: 20m
   nodeSelector:
     app: $APP_NAME-node1  # Select the first node
 ---
