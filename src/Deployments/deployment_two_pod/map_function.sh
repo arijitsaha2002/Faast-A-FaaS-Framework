@@ -86,12 +86,12 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx-loadbalancer 
+  name: $APP_NAME-nginx-loadbalancer 
   labels:
-    app: nginx-loadbalancer 
+    app: $APP_NAME-nginx-loadbalancer
 spec:
   containers:
-  - name: nginx-loadbalancer-container
+  - name: $APP_NAME-nginx-loadbalancer-container
     image: nginx
     ports:
     - containerPort: 80
@@ -104,7 +104,7 @@ metadata:
   name: $APP_NAME-loadbalancer-service
 spec:
   selector:
-    app: nginx-loadbalancer 
+    app: $APP_NAME-nginx-loadbalancer
   ports:
   - protocol: TCP
     port: 80  
