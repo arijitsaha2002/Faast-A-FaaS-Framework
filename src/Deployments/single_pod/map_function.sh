@@ -40,5 +40,24 @@ spec:
     port: 8080  
     targetPort: $PORT_NUMBER  
   type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: $APP_NAME-single-pod-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /\$1
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /$URL/(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: $APP_NAME-pod-service
+            port:
+              number: 8080 
 " > "$APP_NAME-$APP_TYPE".yaml
 
