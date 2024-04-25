@@ -2,26 +2,26 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: two-nginx-testing-app-1
+  name: aryan-app-1
   labels:
-    app: two-nginx-testing-app-1
+    app: aryan-app-1
 spec:
   containers:
-  - name: two-nginx-testing-container-1
+  - name: aryan-container-1
     image: arijitsaha2002/flask_app:0.2
     ports:
     - containerPort: 5000 
-  - name: two-nginx-testing-container-2
-    image: arijitsaha2002/flask_app:0.3 
+  - name: aryan-container-2
+    image: arijitsaha2002/flask_app:0.4 
     ports:
     - containerPort: 5001
 ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx-loadbalancer-two-nginx-testing
+  name: nginx-loadbalancer-aryan
   labels:
-    app: nginx-loadbalancer-two-nginx-testing
+    app: nginx-loadbalancer-aryan
 spec:
   containers:
   - name: nginx-loadbalancer-container
@@ -32,10 +32,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-loadbalancer-service-two-nginx-testing
+  name: nginx-loadbalancer-service-aryan
 spec:
   selector:
-    app: nginx-loadbalancer-two-nginx-testing
+    app: nginx-loadbalancer-aryan
   ports:
   - protocol: TCP
     port: 80  
@@ -54,11 +54,11 @@ spec:
   rules:
   - http:
       paths:
-      - path: /flask_pod_ngix/(.*)
+      - path: /aryan/(.*)
         pathType: ImplementationSpecific
         backend:
           service:
-            name: nginx-loadbalancer-service-two-nginx-testing
+            name: nginx-loadbalancer-service-aryan
             port:
               number: 80 
 
