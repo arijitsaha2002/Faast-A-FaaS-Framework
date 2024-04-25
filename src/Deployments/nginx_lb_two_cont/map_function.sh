@@ -26,10 +26,20 @@ spec:
     image: $IMAGE_NAME1
     ports:
     - containerPort: $PORT_NUMBER1 
+		resources:
+			limits:
+			memory: 50Mi
+			requests:
+			cpu: 20m
   - name: $APP_NAME-container-2
     image: $IMAGE_NAME2 
     ports:
     - containerPort: $PORT_NUMBER2
+		resources:
+			limits:
+			memory: 50Mi
+			requests:
+			cpu: 20m
 ---
 apiVersion: v1
 kind: Pod

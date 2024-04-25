@@ -24,6 +24,11 @@ spec:
     image: $IMAGE_NAME
     ports:
     - containerPort: $PORT_NUMBER 
+		resources:
+			limits:
+			memory: 50Mi
+			requests:
+			cpu: 20m
 ---
 apiVersion: v1
 kind: Pod
@@ -37,6 +42,11 @@ spec:
     image: $IMAGE_NAME
     ports:
     - containerPort: $PORT_NUMBER 
+		resources:
+			limits:
+			memory: 50Mi
+			requests:
+			cpu: 20m
 ---
 apiVersion: v1
 kind: Pod
