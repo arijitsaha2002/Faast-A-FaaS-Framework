@@ -1,0 +1,83 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: singlepod-deployment-app 
+spec:
+  selector:
+    matchLabels:
+      app: singlepod-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: singlepod-app
+    spec:
+      containers:
+        - name: singlepod-cotainer
+          image: arijitsaha2002/flask_app:0.2
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 5m
+              memory: 50Mi
+            limits:
+              cpu: 50m
+          ports:
+            - containerPort: 5000 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: singlepod-vpa-service
+spec:
+  selector:
+    app: singlepod-deployment-app 
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080 
+      targetPort: 5000 
+
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: vpa-development-singlepod
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: singlepod-deployment-app
+  resourcePolicy:
+    containerPolicies:
+      - containerName: singlepod-cotainer
+        minAllowed:
+          cpu: 10m
+          memory: 10Mi
+        maxAllowed:
+          cpu: 50m
+          memory: 50Mi
+        controlledResources: ["cpu", "memory"]
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: singlepod-vpa-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /pod_flask/(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: singlepod-vpa-service
+            port:
+              number: 8080 
+
