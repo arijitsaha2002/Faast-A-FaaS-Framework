@@ -1,42 +1,29 @@
-#!/bin/bash
 
-if [ $# -ne 4 ]; then
-	echo "usage:./map_function.sh app-name image url port"
-	exit 1
-fi;
-
-APP_NAME="$1"
-URL="$3"
-APP_TYPE="nginx-single-pod-deployment"
-IMAGE_NAME="$2"
-PORT_NUMBER="$4"
-
-echo "
 apiVersion: v1
 kind: Pod
 metadata:
-  name: $APP_NAME-single-pod-1
+  name: two-pods-single-pod-1
   labels:
-    app: $APP_NAME-single-pod-1
+    app: two-pods-single-pod-1
 spec:
   containers:
-  - name: $APP_NAME-single-container
-    image: $IMAGE_NAME
+  - name: two-pods-single-container
+    image: arijitsaha2002/flask_app:0.2
     ports:
-    - containerPort: $PORT_NUMBER 
+    - containerPort: 5000 
 ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: $APP_NAME-single-pod-2
+  name: two-pods-single-pod-2
   labels:
-    app: $APP_NAME-single-pod-2
+    app: two-pods-single-pod-2
 spec:
   containers:
-  - name: $APP_NAME-single-container
-    image: $IMAGE_NAME
+  - name: two-pods-single-container
+    image: arijitsaha2002/flask_app:0.2
     ports:
-    - containerPort: $PORT_NUMBER
+    - containerPort: 5000
 ---
 apiVersion: v1
 kind: Pod
@@ -54,7 +41,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: $APP_NAME-nginx-loadbalancer-service
+  name: two-pods-nginx-loadbalancer-service
 spec:
   selector:
     app: nginx-loadbalancer 
@@ -70,20 +57,18 @@ kind: Ingress
 metadata:
   name: my-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /\$1
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   ingressClassName: nginx
   rules:
   - http:
       paths:
-      - path: /$URL/(.*)
+      - path: /two-pods/(.*)
         pathType: ImplementationSpecific
         backend:
           service:
-            name: $APP_NAME-nginx-loadbalancer-service
+            name: two-pods-nginx-loadbalancer-service
             port:
               number: 80 
 
-" > "$APP_NAME-$APP_TYPE".yaml
-kubectl apply -f "$APP_NAME-$APP_TYPE".yaml
 
