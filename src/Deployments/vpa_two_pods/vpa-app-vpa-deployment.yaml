@@ -2,57 +2,56 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myflask-deployment-app 
+  name: vpa-app-app
 spec:
+  replicas: 2
   selector:
     matchLabels:
-      app: myflask-app
-  replicas: 2
+      app: vpa-app-app
   template:
     metadata:
       labels:
-        app: myflask-app
+        app: vpa-app-app 
     spec:
       containers:
-        - name: myflask-cotainer
-          image: arijitsaha102002/flask_app:0.2
-          imagePullPolicy: IfNotPresent
-          resources:
-            requests:
-              cpu: 5m
-              memory: 50Mi
-            limits:
-              cpu: 50m
-          ports:
-            - containerPort: 5000 
-
+      - name: vpa-app-app 
+        image: arijitsaha2002/flask_app:0.2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000 
+        resources:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: 50m
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: myflask-vpa-service
+  name: vpa-app-service
+  labels:
+    app: vpa-app-app
 spec:
-  selector:
-    app: myflask-app 
-  type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 8080 
+      port: 8080
       targetPort: 5000 
-
+  selector:
+    app: vpa-app-app 
+  type: LoadBalancer
 ---
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: vpa-development-myflask
+  name: vpa-development-vpa-app
 spec:
   targetRef:
     apiVersion: "apps/v1"
     kind: Deployment
-    name: myflask-deployment-app
+    name: vpa-app-deployment-app
   resourcePolicy:
     containerPolicies:
-      - containerName: myflask-cotainer
+      - containerName: vpa-app-cotainer
         minAllowed:
           cpu: 10m
           memory: 10Mi
@@ -60,12 +59,11 @@ spec:
           cpu: 50m
           memory: 50Mi
         controlledResources: ["cpu", "memory"]
-
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: myflask-vpa-ingress
+  name: my-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
@@ -73,11 +71,11 @@ spec:
   rules:
   - http:
       paths:
-      - path: /vpa_flask/(.*)
+      - path: /vpa2/(.*)
         pathType: ImplementationSpecific
         backend:
           service:
-            name: myflask-vpa-service
+            name: vpa-app-service
             port:
               number: 8080 
 
