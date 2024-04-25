@@ -53,6 +53,26 @@ spec:
     app: $APP_NAME-app 
   type: LoadBalancer
 ---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: vpa-development-$APP_NAME
+spec:
+  targetRef:
+    apiVersion: \"apps/v1\"
+    kind: Deployment
+    name: $APP_NAME-app
+  resourcePolicy:
+    containerPolicies:
+      - containerName: $APP_NAME-app
+        minAllowed:
+          cpu: 10m
+          memory: 10Mi
+        maxAllowed:
+          cpu: 50m
+          memory: 50Mi
+        controlledResources: [\"cpu\", \"memory\"]
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
