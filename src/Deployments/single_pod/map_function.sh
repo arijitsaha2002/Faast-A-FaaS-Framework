@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -neq 4 ]; then
+if [ $# -ne 4 ]; then
 	echo "usage:./map_function.sh app-name image url port"
 	exit 1
 fi;
@@ -60,4 +60,5 @@ spec:
             port:
               number: 8080 
 " > "$APP_NAME-$APP_TYPE".yaml
+kubectl apply -f "$APP_NAME-$APP_TYPE".yaml
 
