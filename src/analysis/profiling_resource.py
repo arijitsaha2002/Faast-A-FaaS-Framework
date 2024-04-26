@@ -35,8 +35,6 @@ parser.add_argument("--app-name", type=str, required=True, help='name of the app
 args = parser.parse_args()
 
 # num requests
-N = 2000
-
 port = 20000
 url_pref = f"http://localhost:{port}/apis"
 
