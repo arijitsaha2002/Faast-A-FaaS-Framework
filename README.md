@@ -1,5 +1,4 @@
-#
-Faast-A-Faas-Framework
+#Faast-A-Faas-Framework
 ```
 Faast = FaaS + K8s
 ```
@@ -68,12 +67,20 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
 - Install the required tools which are [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) and [helm](https://helm.sh/docs/intro/install/)
 - Run the following command to simulate the cluster configuration:
     ```
-    bash setup.sh
+    bash src/setup.sh
     ```
 #### Generating Analysis Results
-- Navigate to the *Deployments/<cluster-config>* directory and for each cluster configuration run the following command:
+- We need to setup two more things which are tunneling and metrics-server REST-API. Run the following command in two different terminal windows:
     ```
-    bash perform_analysis.sh
+    minikube tunnel
+    ```
+    ```
+    minikube dashboard
+    ```
+
+- Now, run the following command to perform the analysis for different cluster configurations:
+    ```
+    bash src/analysis/perform_analysis.sh <host> <url> <app-type> <app-name>
     ```
 
 
