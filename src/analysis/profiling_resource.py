@@ -31,6 +31,7 @@ parser.add_argument("--two-pod-diff-node", action="store_true", help='two pod on
 parser.add_argument("--hpa", action="store_true", help='horizontal pod autoscaler analysis')
 parser.add_argument("--two-container", action="store_true", help='two container on the same pod analysis')
 parser.add_argument("--vpa", action="store_true", help='vertical pod autoscaler analysis')
+parser.add_argument("--app-name", type=str, required=True, help='name of the app')
 args = parser.parse_args()
 
 # num requests
@@ -39,11 +40,13 @@ N = 2000
 port = 20000
 url_pref = f"http://localhost:{port}/apis"
 
+app_name = args.app_name
+
 if args.single_pod:
     mem_utilz = []
     cpu_utilz = []
 
-    pod_name = "single-pod-pod"
+    pod_name = app_name + "-pod"
     url = url_pref + "/metrics.k8s.io/v1beta1/namespaces/default/pods/" + pod_name
     try:
         start_time = time.time()
@@ -55,17 +58,24 @@ if args.single_pod:
                 
                 start_time = time.time()
     except KeyboardInterrupt:
-        plt.plot(list(range(len(mem_utilz))), mem_utilz)
-        plt.savefig("mem_utilz.png")
+
+        plt.plot(mem_utilz, label="memory utilization")
+        plt.xlabel("time")
+        plt.ylabel("memory utilization")
+        plt.title("Memory Utilization")
+        plt.savefig(f"memory-utilization-{app_name}.png")
         plt.close()
-        plt.plot(list(range(len(cpu_utilz))), cpu_utilz)
-        plt.savefig("cpu_utilz.png")
+    
+        plt.plot(cpu_utilz, label="cpu utilization")
+        plt.xlabel("time")
+        plt.ylabel("cpu utilization")
+        plt.title("CPU Utilization")
+        plt.savefig(f"cpu-utilization-{app_name}.png")
         plt.close()
     
     
 
 if args.two_pod_same_node:
-    app_name = "aryan-tp"
     pod1_name = app_name + "-single-pod-1"
     pod2_name = app_name + "-single-pod-2"
 
@@ -106,7 +116,6 @@ if args.two_pod_same_node:
         print("plotting remaining")
 
 if args.two_container:
-    app_name = "aryan-tc"
     pod_name = app_name + "-app-1"
     url = url_pref + "/metrics.k8s.io/v1beta1/namespaces/default/pods/" + pod_name
     
@@ -140,7 +149,6 @@ if args.two_container:
         print("plotting remaining")
     
 if args.hpa:
-    app_name = "aryan-hpa"
     hpa_name = "hpa-deployment-" + app_name
     url = url_pref + "/autoscaling/v1/namespaces/default/horizontalpodautoscalers/" + hpa_name
     
@@ -166,7 +174,6 @@ if args.hpa:
 
 
 if args.two_pod_diff_node:
-    app_name = "aryan-td"
     pod1_name = app_name + "-node1-pod"
     pod2_name = app_name + "-node2-pod"
 
@@ -208,7 +215,6 @@ if args.two_pod_diff_node:
 
 
 if args.vpa:
-    app_name = "aryan-vpa"
     pod_name = app_name + "-app"
 
     url = url_pref + "/autoscaling.k8s.io/v1/namespaces/default/verticalpodautoscalers/" + pod_name
@@ -229,12 +235,12 @@ if args.vpa:
         while True:
             if (time.time() - start_time) >= 0.1:
                 resp = requests.get(url=url).json()
-                lb_cpu.append(get_cpu(resp["status"]["recommendation"]["containerRecommendations"][0]["lowerBound"]["cpu"])
-                lb_mem.append(get_mem(resp["status"]["recommendation"]["containerRecommendations"][0]["lowerBound"]["memory"])
-                up_cpu.append(get_cpu(resp["status"]["recommendation"]["containerRecommendations"][0]["upperBound"]["cpu"])
-                up_mem.append(get_mem(resp["status"]["recommendation"]["containerRecommendations"][0]["upperBound"]["memory"])
-                target_cpu.append(get_cpu(resp["status"]["recommendation"]["containerRecommendations"][0]["target"]["cpu"])
-                target_mem.append(get_mem(resp["status"]["recommendation"]["containerRecommendations"][0]["target"]["memory"])
+                lb_cpu.append(get_cpu(resp["status"]["recommendation"]["containerRecommendations"][0]["lowerBound"]["cpu"]))
+                lb_mem.append(get_mem(resp["status"]["recommendation"]["containerRecommendations"][0]["lowerBound"]["memory"]))
+                up_cpu.append(get_cpu(resp["status"]["recommendation"]["containerRecommendations"][0]["upperBound"]["cpu"]))
+                up_mem.append(get_mem(resp["status"]["recommendation"]["containerRecommendations"][0]["upperBound"]["memory"]))
+                target_cpu.append(get_cpu(resp["status"]["recommendation"]["containerRecommendations"][0]["target"]["cpu"]))
+                target_mem.append(get_mem(resp["status"]["recommendation"]["containerRecommendations"][0]["target"]["memory"]))
 
                 start_time = time.time()
     
