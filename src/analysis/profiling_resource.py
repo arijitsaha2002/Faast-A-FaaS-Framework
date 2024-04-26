@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 
 def get_cpu(cpu):
     if(cpu[-1] == "n"):
-        cpu = int(cpu[:-1])/1000000000
+        cpu = int(cpu[:-1])/(10**9)
     elif cpu[-1] == "m":
-        cpu[-1] = int(cpu)/1000
+        cpu[-1] = int(cpu)/(1000)
     else:
         cpu = -1
     return cpu
@@ -19,7 +19,7 @@ def get_mem(mem):
     if(mem[-2:] == "Ki"):
         mem = int(mem[:-2])
     elif(mem[-2:] == "Mi"):
-        mem = int(mem[:-2])*1000
+        mem = int(mem[:-2])*(2**10)
     else:
         mem = -1
     return mem
@@ -208,5 +208,42 @@ if args.two_pod_diff_node:
 
 
 if args.vpa:
-    print("vpa analysis not implemented")
+    app_name = "aryan-vpa"
+    pod_name = app_name + "-app"
 
+    url = url_pref + "/autoscaling.k8s.io/v1/namespaces/default/verticalpodautoscalers/" + pod_name
+    
+    lb_cpu = []
+    lb_mem = []
+
+    up_cpu = []
+    up_mem = []
+
+    target_cpu = []
+    target_mem = []
+    
+
+
+    try:
+        start_time = time.time()
+        while True:
+            if (time.time() - start_time) >= 0.1:
+                resp = requests.get(url=url).json()
+                lb_cpu.append(get_cpu(resp["status"]["recommendation"]["containerRecommendations"][0]["lowerBound"]["cpu"])
+                lb_mem.append(get_mem(resp["status"]["recommendation"]["containerRecommendations"][0]["lowerBound"]["memory"])
+                up_cpu.append(get_cpu(resp["status"]["recommendation"]["containerRecommendations"][0]["upperBound"]["cpu"])
+                up_mem.append(get_mem(resp["status"]["recommendation"]["containerRecommendations"][0]["upperBound"]["memory"])
+                target_cpu.append(get_cpu(resp["status"]["recommendation"]["containerRecommendations"][0]["target"]["cpu"])
+                target_mem.append(get_mem(resp["status"]["recommendation"]["containerRecommendations"][0]["target"]["memory"])
+
+                start_time = time.time()
+    
+    except KeyboardInterrupt:
+        print(lb_cpu)
+        print(lb_mem)
+        print(up_cpu)
+        print(up_mem)
+        print(target_cpu)
+        print(target_mem)
+        print("plotting remaining")
+    
