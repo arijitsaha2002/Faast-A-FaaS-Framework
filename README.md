@@ -75,7 +75,7 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
     minikube tunnel
     ```
     ```
-    minikube dashboard
+    minikube dashboard --port=20000
     ```
 
 - Now, run the following command to perform the analysis for different cluster configurations:

@@ -17,14 +17,14 @@ args = parser.parse_args()
 # num requests
 response_time = []
 curr_time = time.time()
-while time.time() - curr_time < 60:
+while time.time() - curr_time < 120:
     time.sleep(0.1)
     start_time = time.time()
     requests.get(url=f"http://{args.host}/{args.url}")
     end_time = time.time()
     response_time.append(end_time - start_time)
 
-while time.time() - curr_time < 60:
+while time.time() - curr_time < 120:
     time.sleep(0.01)
     start_time = time.time()
     requests.get(url=f"http://{args.host}/{args.url}")
@@ -32,7 +32,7 @@ while time.time() - curr_time < 60:
     response_time.append(end_time - start_time)
 
 
-while time.time() - curr_time < 60:
+while time.time() - curr_time < 120:
     time.sleep(0.001)
     start_time = time.time()
     requests.get(url=f"http://{args.host}/{args.url}")
