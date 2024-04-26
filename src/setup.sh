@@ -3,14 +3,11 @@ minikube start
 
 # enabling metrics-server
 minikube addons enable metrics-server
+
+# enabling ingress
 minikube addons enable ingress
 
-#enbling a nginx-ingres-load-balancer
-kubectl apply -f Configs/ingres_nginx_config/deploy.yaml
-
-#enbling vpa autoscaller
-kubectl apply -f ./Configs/vpa_config/vpa-v1-crd-gen.yaml
-kubectl apply -f ./Configs/vpa_config/vpa-rbac.yaml 
-
-
+# enabling vpa
+helm repo add cowboysysop https://cowboysysop.github.io/charts/
+helm -n kube-system upgrade -install vertical-pod-autoscaler cowboysysop/vertical-pod-autoscaler
 
