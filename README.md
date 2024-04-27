@@ -6,17 +6,11 @@ This project aims at testing various cluster configuration for Faas (**Function 
 
 We utilize *kubernetes* tool in order to create cluster environment and deploy FaaS Services and perform analysis. 
 
-### Requirements 
-- *minikube* - This tool is used to create a simple cluster and does the initial setup [Install Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
-             - We also require addons in minikube such as metrics-server, dashboard, ingress inn order to create cluster environment and perform our experiments
-- *kubectl* - This tool is used to interact with the cluster and deploy functions [Install Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 
-
-
-### Cluster Configuration
+### Cluster Configurations
 1) **Single Pod Cluster** 
     - This contains a single pod with a single container deployed in a single node cluster. 
     - The following image shows the cluster configuration:
-    ![](./images/single_pod.png)
+        <img src="./images/single_pod.png"  width="600" height="300">
 
 2) **Single Pod with Multi-Container** 
     - This contains a pod with multiple containers deployed in a single node cluster with each container running the same service. 
@@ -60,27 +54,50 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
     - We perform the analysis for different cluster configurations and compare the results.
     - The following images shows the resource utilization comparison for different cluster configurations:
    
+### Worload for Testing
+- We use two kinds of simple stateless worloads in order to test for various cluster environments.
+    - **Beauituful Loops** - This worload simply runs a for loop doing some simple computation.
+    - **Random Weird Text** - This worload simply generates some random text and returns it as response. 
 
-### Running Instructions for Simulating the Cluster Configuration
+### Running Instructions for Setting up a Cluster Environment
+- Run the following command to setup the environment for running cluster configurations
+    ```bash
+    bash setup.sh
+    ```
+- Supported app-types based on the cluster configuration defined above are 
+    ```bash
+        single-pod  two-pod-same-node  two-pod-diff-node  hpa  vpa  two-container
+    ```
+- Run the following command with the appropriate *<app_type>* to setup the requirements for running clusters: 
+    ```bash
+    bash deploy_app.sh <app_name> <app_type> <docker_image_name> <python-app-file> <requirements-file> <port> <map_url>
+    ```
+
+### Running Instructions for Simulating the Worload on various Cluster Configuration
 #### Setup
 - Clone the repository and navigate to the directory
 - Install the required tools which are [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) and [helm](https://helm.sh/docs/intro/install/)
-- Run the following command to simulate the cluster configuration:
-    ```
-    bash src/setup.sh
-    ```
 #### Generating Analysis Results
-- We need to setup two more things which are tunneling and metrics-server REST-API. Run the following command in two different terminal windows:
-    ```
-    minikube tunnel
-    ```
-    ```
+- We need to setup metrics-server REST-API. Run the following command in two different terminal windows:
+    ```bash
     minikube dashboard --port=20000
     ```
 
-- Now, run the following command to perform the analysis for different cluster configurations:
-    ```
+- Now, run the following command to perform the analysis for different cluster configurations to generate the logs for response-time and resource utilization:
+    ```bash
     bash src/analysis/perform_analysis.sh <host> <url> <app-type> <app-name>
     ```
-
+    This will generate the all the logs for response-time and resource utilization based on a worload defined earlier.
+    The file names are in the following format:
+    ```bash
+    <logs-dir>/<app-name-<app-type>-response_time.csv
+    <logs-dir>/<app-name-<app-type>-resource_usage.csv
+    ```
+- Execute the following python file to generate the plots for the analysis:
+    ```bash
+    usage: script to generate plot from log files
+       [-h] --app-type APP_TYPE
+       [--response-log RESPONSE_LOG]
+       [--resources-log RESOURCES_LOG] --output-folder OUTPUT_FOLDER
+    ```
 
