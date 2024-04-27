@@ -1,10 +1,10 @@
 #!/bin/python3
 import time
 import argparse
-import requests
 import numpy as np
 import matplotlib.pyplot as plt
 import threading
+import subprocess
 
 parser = argparse.ArgumentParser("use this file to get response time of a server")
 parser.add_argument("--host", type=str, help='host of the server', required=True)
@@ -15,10 +15,17 @@ parser.add_argument("--app-type", type=str, help='type of the app', required=Tru
 parser.add_argument("--app-name", type=str, help='name of the app', required=True)
 args = parser.parse_args()
 
-response_time = []
+response_time_avg = []
+response_time_max = []
+response_time_array = []
 
-def fetch_url(url):
-  requests.get(url=url)
+def fetch_url(url, index):
+    global response_time_array
+    start_time = time.time()
+    subprocess.run(['curl', '-s', f'{url}'], capture_output=True)
+    end_time = time.time()
+    response_time_array[index] = end_time - start_time
+    exit(0)
 
 
 num_req_parallel = [1, 10, 100]
@@ -26,25 +33,28 @@ num_req_parallel = [1, 10, 100]
 for num_req in num_req_parallel:
     print(f"Sending request with {num_req} parallel requests for around 120 seconds ...")
     curr_time = time.time()
-    while time.time() - curr_time < 120:
-        start_time = time.time()
+    while time.time() - curr_time < 60:
         threads = []
+        response_time_array = [0.0]*num_req
         for i in range(num_req):
-          thread = threading.Thread(target=fetch_url, args=(f"http://{args.host}/{args.url}",))
+          thread = threading.Thread(target=fetch_url, args=(f"http://{args.host}/{args.url}",i))
           thread.start()
           threads.append(thread)
 
         for thread in threads:
           thread.join()
-
-        end_time = time.time()
-        response_time.append((end_time - start_time) / 10)
+        
+        response_time_avg.append(sum(response_time_array) / num_req)
+        response_time_max.append(max(response_time_array))
+        time.sleep(0.01)
 
     print("Sleeping for 5 seconds ...")
     time.sleep(5)
 
 
-plt.plot(response_time)
+plt.plot(response_time_avg, label="avg response time")
+plt.plot(response_time_max, label="max response time")
+plt.legend()
 plt.savefig(f"response-time-{args.app_type}-{args.app_name}.png")
 plt.close()
 
