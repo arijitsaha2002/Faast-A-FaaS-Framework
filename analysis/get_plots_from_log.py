@@ -1,6 +1,5 @@
 #!/bin/python3
 import pandas as pd
-import numpy as np
 import argparse
 import os
 from matplotlib import pyplot as plt
@@ -12,6 +11,7 @@ parser.add_argument("--app-type", type=str, required=True,
 parser.add_argument("--response-log", type=str, default="")
 parser.add_argument("--resources-log", type=str, default="")
 parser.add_argument("--output-folder", type=str, required=True)
+parser.add_argument("--app-name", type=str, required=True)
 
 args = parser.parse_args()
 if not os.path.exists(args.output_folder):
@@ -36,14 +36,14 @@ if args.resources_log:
         plt.xlabel("time")
         plt.ylabel("memory utilization")
         plt.title("Memory Utilization")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"mem-utilization.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"mem-utilization-{args.app_name}.png"))
         plt.close()
     
         plt.plot(resource_data.cpu, label="cpu utilization")
         plt.xlabel("time")
         plt.ylabel("cpu utilization")
         plt.title("CPU Utilization")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization-{args.app_name}.png"))
         plt.close()
 
     elif args.app_type == "two-pod-same-node":
@@ -52,7 +52,7 @@ if args.resources_log:
         plt.xlabel("time")
         plt.ylabel("memory utilization")
         plt.title("Memory Utilization")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"mem-utilization.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"mem-utilization-{args.app_name}.png"))
         plt.close()
 
         plt.plot(resource_data.pod1_cpu, label="cpu utilization pod1")
@@ -60,7 +60,7 @@ if args.resources_log:
         plt.xlabel("time")
         plt.ylabel("cpu utilization")
         plt.title("CPU Utilization")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization-{args.app_name}.png"))
         plt.close()
 
     elif args.app_type == "two-pod-diff-node":
@@ -70,7 +70,7 @@ if args.resources_log:
         plt.xlabel("time")
         plt.ylabel("memory utilization")
         plt.title("Memory Utilization")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"mem-utilization.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"mem-utilization-{args.app_name}.png"))
         plt.close()
 
         plt.plot(resource_data.pod1_cpu, label="cpu utilization pod1")
@@ -78,7 +78,7 @@ if args.resources_log:
         plt.xlabel("time")
         plt.ylabel("cpu utilization")
         plt.title("CPU Utilization")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization-{args.app_name}.png"))
         plt.close()
 
     elif args.app_type == "hpa":
@@ -87,7 +87,7 @@ if args.resources_log:
         plt.xlabel("time")
         plt.ylabel("replicas count")
         plt.title("Replicas Count")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"replicas-count.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"replicas-count-{args.app_name}.png"))
         plt.close()
 
         plt.plot(resource_data.current_cpu_utilz, label="current cpu utilization")
@@ -95,7 +95,7 @@ if args.resources_log:
         plt.xlabel("time")
         plt.ylabel("cpu utilization")
         plt.title("CPU Utilization")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization-{args.app_name}.png"))
         plt.close()        
 
     elif args.app_type == "vpa":
@@ -107,7 +107,7 @@ if args.resources_log:
         plt.xlabel("time")
         plt.ylabel("cpu")
         plt.title("CPU")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization-{args.app_name}.png"))
 
         plt.plot(resource_data.lb_mem, label="lower bound memory")
         plt.plot(resource_data.up_mem, label="upper bound memory")
@@ -115,7 +115,7 @@ if args.resources_log:
         plt.xlabel("time")
         plt.ylabel("memory")
         plt.title("Memory")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"mem-utilization.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"mem-utilization-{args.app_name}.png"))
         plt.close()        
 
     elif args.app_type == "two-container":
@@ -127,7 +127,7 @@ if args.resources_log:
         plt.xlabel("time")
         plt.ylabel("memory utilization")
         plt.title("Memory Utilization")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"mem-utilization.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"mem-utilization-{args.app_name}.png"))
         plt.close()
         
         plt.plot(resource_data.cont1_cpu, label="cpu utilization cont1")
@@ -136,6 +136,6 @@ if args.resources_log:
         plt.xlabel("time")
         plt.ylabel("cpu utilization")
         plt.title("CPU Utilization")
-        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization.png"))
+        plt.savefig(os.path.join(args.output_folder,args.app_type, f"cpu-utilization-{args.app_name}.png"))
         plt.close()     
 
