@@ -40,13 +40,13 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
     - This contains multiple replica set of pods (initially containing single pod) deployed in a single node.
     - HPA *scales out* when the resource requirements goes beyond the set limits and adjust the number of pods accordingly. 
     - The following image shows the cluster configuration:
-    ![](hpa_cluster.png)
+    ![](./images/hpa.png)
 
 6) **Vertical Pod Autoscaler**
     - This contains a single pod enabled with VPA deployed in a single node. 
     - VPA *scales up* when the resource requirements goes beyond the set limits and adjust the pod resources accordingly. 
     - The following image shows the cluster configuration:
-    ![](vpa_cluster.png)
+    ![](./images/vpa.png)
 
 ### Metrics
 1) **Latency and Throughput** 
