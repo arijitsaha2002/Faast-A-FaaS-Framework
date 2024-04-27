@@ -28,12 +28,11 @@ def fetch_url(url, index):
     exit(0)
 
 
-num_req_parallel = [1, 10, 100]
+num_req_parallel = [1, 10, 50]
 
 for num_req in num_req_parallel:
     print(f"Sending request with {num_req} parallel requests for around 120 seconds ...")
-    curr_time = time.time()
-    while time.time() - curr_time < 60:
+    for j in range(1000):
         threads = []
         response_time_array = [0.0]*num_req
         for i in range(num_req):
