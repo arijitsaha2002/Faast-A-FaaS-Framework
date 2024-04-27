@@ -89,3 +89,20 @@ spec:
 " > "$APP_NAME-$APP_TYPE".yaml
 kubectl apply -f "$APP_NAME-$APP_TYPE".yaml
 
+
+container_status=0
+
+while [ $container_status -ne 1 ]; do
+	echo "Deploying $app_name ..."
+	container_status=1
+	for i in $(kubectl get pods | sed '1d' | awk '{print $3}'); do
+		if [ "$i" != "Running" ]; then
+			container_status=0
+		fi
+	done
+	sleep 1
+done
+
+./setup_nginx.sh $APP_NAME $PORT_NUMBER1 $PORT_NUMBER2
+
+echo "Deployment of $APP_NAME is successful."

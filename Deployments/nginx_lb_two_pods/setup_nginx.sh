@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ "$#" -ne 1 ]; then
-	echo "Usage: $0 <APP_NAME>"
+if [ "$#" -ne 2 ]; then
+	echo "Usage: $0 <APP_NAME> <PORT>"
 	exit 1
 fi
 
@@ -9,12 +9,13 @@ APP_NAME=$1
 IP1=$(kubectl get pods -o wide | grep $APP_NAME-single-pod-1 | awk '{print $6}')
 IP2=$(kubectl get pods -o wide | grep $APP_NAME-single-pod-2 | awk '{print $6}')
 NGINX_CONT_NAME=$APP_NAME-nginx-loadbalancer
+PORT=$2
 
 
 DEFAULT_CONF_FILE=$(echo "
 upstream backend {
-        server $IP1:5000; 
-        server $IP2:5000; 
+        server $IP1:$PORT; 
+        server $IP2:$PORT; 
     }
 
 server {
