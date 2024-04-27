@@ -12,7 +12,7 @@ def get_cpu(cpu):
     elif cpu[-1] == "m":
         cpu = int(cpu[:-1])/(1000)
 
-    return int(cpu)
+    return float(cpu)
 
 def get_mem(mem):
     if(mem[-2:] == "Ki"):

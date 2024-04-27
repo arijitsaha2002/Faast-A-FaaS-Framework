@@ -39,6 +39,18 @@ if [ "$app_type" == "two-container" ]; then
 	cd Deployments/$app_type
 	bash map_function.sh $app_name "$docker_image_name-1" "$docker_image_name-2" $map_url $port1 $port2
 
+elif [ "$app_type" == "two-pod-diff-node" ]; then
+		
+	./build_image.sh $docker_image_name $python_app_file $requirements_file $port
+	minikube image build -t "$docker_image_name" -n 'minikube-m02' /tmp/build_docker_image
+	
+	if [ $? -ne 0 ]; then
+	  echo "Failed to build docker image"
+	  exit 1
+	fi
+
+	cd Deployments/$app_type 
+	bash map_function.sh $app_name $docker_image_name $map_url $port
 
 else
 	./build_image.sh $docker_image_name $python_app_file $requirements_file $port
