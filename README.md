@@ -106,11 +106,12 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
     This will generate the all the logs for response-time and resource utilization based on a worload defined earlier.
     The file names are in the following format:
     ```bash
-    <logs-dir>/<app-name-<app-type>-response_time.csv
-    <logs-dir>/<app-name-<app-type>-resource_usage.csv
+    <logs-dir>/<app-name>-<app-type>-response_time.csv
+    <logs-dir>/<app-name>-<app-type>-resource_usage.csv
     ```
 - Execute the following python file to generate the plots for the analysis:
     ```bash
+    python3 analysis/get_plot_from_log.py
     usage: script to generate plot from log files [-h] --app-type APP_TYPE
                                                   [--response-log RESPONSE_LOG]
                                                   [--resources-log RESOURCES_LOG] --output-folder
