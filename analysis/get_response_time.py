@@ -1,9 +1,10 @@
 #!/bin/python3
 import time
 import argparse
-import requests
 import numpy as np
 import matplotlib.pyplot as plt
+import threading
+import subprocess
 
 parser = argparse.ArgumentParser("use this file to get response time of a server")
 parser.add_argument("--host", type=str, help='host of the server', required=True)
@@ -12,42 +13,45 @@ parser.add_argument("--url", type=str, help='port of the server', required=True)
 # this is the cluster configuration
 parser.add_argument("--app-type", type=str, help='type of the app', required=True)
 parser.add_argument("--app-name", type=str, help='name of the app', required=True)
+parser.add_argument("--logs-dir", type=str, help='logs directory', required=True)
 args = parser.parse_args()
 
-print("Sending request with sleep time 0.1")
-response_time = []
-curr_time = time.time()
-while time.time() - curr_time < 120:
-    time.sleep(0.1)
+response_time_avg = []
+response_time_max = []
+response_time_array = []
+
+def fetch_url(url, index):
+    global response_time_array
     start_time = time.time()
-    requests.get(url=f"http://{args.host}/{args.url}")
+    subprocess.run(['curl', '-s', f'{url}'], capture_output=True)
     end_time = time.time()
-    response_time.append(end_time - start_time)
-
-print("Sleeping for 5 seconds")
-time.sleep(5)
-
-print("Sending request with sleep time 0.01")
-while time.time() - curr_time < 120:
-    time.sleep(0.01)
-    start_time = time.time()
-    requests.get(url=f"http://{args.host}/{args.url}")
-    end_time = time.time()
-    response_time.append(end_time - start_time)
-
-print("Sleeping for 5 seconds")
-time.sleep(5)
+    response_time_array[index] = end_time - start_time
+    exit(0)
 
 
-print("Sending request with sleep time 0.001")
-while time.time() - curr_time < 120:
-    time.sleep(0.001)
-    start_time = time.time()
-    requests.get(url=f"http://{args.host}/{args.url}")
-    end_time = time.time()
-    response_time.append(end_time - start_time)
+num_req_parallel = [1, 10, 50]
 
-plt.plot(response_time)
-plt.savefig(f"response-time-{args.app_type}-{args.app_name}.png")
-plt.close()
+for num_req in num_req_parallel:
+    print(f"Sending request with {num_req} parallel requests for around 120 seconds ...")
+    for j in range(1000):
+        threads = []
+        response_time_array = [0.0]*num_req
+        for i in range(num_req):
+          thread = threading.Thread(target=fetch_url, args=(f"http://{args.host}/{args.url}",i))
+          thread.start()
+          threads.append(thread)
 
+        for thread in threads:
+          thread.join()
+        
+        response_time_avg.append(sum(response_time_array) / num_req)
+        response_time_max.append(max(response_time_array))
+        time.sleep(0.01)
+
+    print("Sleeping for 5 seconds ...")
+    time.sleep(5)
+
+with open("{args.app_type}-{args.app_name}-response-time.csv", "w") as f:
+    f.write("avg, max\n")
+    for i in range(len(response_time_avg)):
+        f.write(f"{response_time_avg[i]},{response_time_max[i]}\n")

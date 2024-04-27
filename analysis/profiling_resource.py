@@ -32,6 +32,7 @@ parser.add_argument("--hpa", action="store_true", help='horizontal pod autoscale
 parser.add_argument("--two-container", action="store_true", help='two container on the same pod analysis')
 parser.add_argument("--vpa", action="store_true", help='vertical pod autoscaler analysis')
 parser.add_argument("--app-name", type=str, required=True, help='name of the app')
+parser.add_argument("--logs-dir", type=str, required=True, help='directory to store logs')
 args = parser.parse_args()
 
 # num requests
@@ -39,6 +40,7 @@ port = 20000
 url_pref = f"http://localhost:{port}/apis"
 
 app_name = args.app_name
+logs_dir = args.logs_dir
 
 if args.single_pod:
     mem_utilz = []
@@ -57,22 +59,11 @@ if args.single_pod:
                 start_time = time.time()
     except KeyboardInterrupt:
 
-        plt.plot(mem_utilz, label="memory utilization")
-        plt.xlabel("time")
-        plt.ylabel("memory utilization")
-        plt.title("Memory Utilization")
-        plt.savefig(f"memory-utilization-{app_name}.png")
-        plt.close()
+        with open(f"{logs_dir}/single-pod-{app_name}.csv", "w") as f:
+            f.write("mem, cpu\n")
+            for i, j in zip(mem_utilz, cpu_utilz):
+                f.write(f"{i}, {j}\n")    
     
-        plt.plot(cpu_utilz, label="cpu utilization")
-        plt.xlabel("time")
-        plt.ylabel("cpu utilization")
-        plt.title("CPU Utilization")
-        plt.savefig(f"cpu-utilization-{app_name}.png")
-        plt.close()
-    
-    
-
 if args.two_pod_same_node:
     pod1_name = app_name + "-single-pod-1"
     pod2_name = app_name + "-single-pod-2"
@@ -107,23 +98,11 @@ if args.two_pod_same_node:
 
                 start_time = time.time()
     except KeyboardInterrupt:
-        plt.plot(pod1_mem_utilz, label="memory utilization pod1")
-        plt.plot(pod2_mem_utilz, label="memory utilization pod2")
-        plt.xlabel("time")
-        plt.ylabel("memory utilization")
-        plt.title("Memory Utilization")
-        plt.savefig(f"memory-utilization-{app_name}.png")
-        plt.close()
 
-        plt.plot(pod1_cpu_utilz, label="cpu utilization pod1")
-        plt.plot(pod2_cpu_utilz, label="cpu utilization pod2")
-        plt.xlabel("time")
-        plt.ylabel("cpu utilization")
-        plt.title("CPU Utilization")
-        plt.savefig(f"cpu-utilization-{app_name}.png")
-        plt.close()
-
-        print("plotting remaining")
+        with open(f"{logs_dir}/two-pod-same-node-{app_name}.csv", "w") as f:
+            f.write("pod1_mem, pod1_cpu, pod2_mem, pod2_cpu\n")
+            for i1, j1, i2, j2 in zip(pod1_mem_utilz, pod1_cpu_utilz, pod2_mem_utilz, pod2_cpu_utilz): 
+                f.write(f"{i1}, {j1}, {i2}, {j2}\n")
 
 if args.two_container:
     pod_name = app_name + "-app-1"
@@ -152,24 +131,12 @@ if args.two_container:
 
                 start_time = time.time()
     except KeyboardInterrupt:
-        plt.plot(cont1_mem_utilz, label="memory utilization cont1") 
-        plt.plot(cont2_mem_utilz, label="memory utilization cont2")
-        plt.plot([i + j for i,j in zip(cont1_mem_utilz, cont2_mem_utilz)], label="pod memory utilization")
-        plt.xlabel("time")
-        plt.ylabel("memory utilization")
-        plt.title("Memory Utilization")
-        plt.savefig(f"memory-utilization-{app_name}.png")
-        plt.close()
         
-        plt.plot(cont1_cpu_utilz, label="cpu utilization cont1")
-        plt.plot(cont2_cpu_utilz, label="cpu utilization cont2")
-        plt.plot([i + j for i,j in zip(cont1_cpu_utilz, cont2_cpu_utilz)], label="pod cpu utilization")
-        plt.xlabel("time")
-        plt.ylabel("cpu utilization")
-        plt.title("CPU Utilization")
-        plt.savefig(f"cpu-utilization-{app_name}.png")
-        plt.close()
-
+        with open(f"{logs_dir}/two-container-{app_name}.csv", "w") as f:
+            f.write("cont1_mem, cont1_cpu, cont2_mem, cont2_cpu\n")
+            for i1, j1, i2, j2 in zip(cont1_mem_utilz, cont1_cpu_utilz, cont2_mem_utilz, cont2_cpu_utilz): 
+                f.write(f"{i1}, {j1}, {i2}, {j2}\n")
+    
     
 if args.hpa:
     hpa_name = "hpa-deployment-" + app_name
@@ -190,22 +157,11 @@ if args.hpa:
 
                 start_time = time.time()
     except KeyboardInterrupt:
-        
-        plt.plot(replicas_count, label="replicas count")
-        plt.xlabel("time")
-        plt.ylabel("replicas count")
-        plt.title("Replicas Count")
-        plt.savefig(f"replicas-count-{app_name}.png")
-        plt.close()
 
-        plt.plot(current_cpu_utilz, label="current cpu utilization")
-        plt.plot(hpa_target, label="hpa target cpu utilization")
-        plt.xlabel("time")
-        plt.ylabel("cpu utilization")
-        plt.title("CPU Utilization")
-        plt.savefig(f"cpu-utilization-{app_name}.png")
-        plt.close()
-
+        with open(f"{logs_dir}/hpa-{app_name}.csv", "w") as f:
+            f.write("replicas_count, current_cpu_utilz, hpa_target\n")
+            for i, j, k in zip(replicas_count, current_cpu_utilz, hpa_target):
+                f.write(f"{i}, {j}, {k}\n") 
 
 
 if args.two_pod_diff_node:
@@ -240,24 +196,12 @@ if args.two_pod_diff_node:
                 pod2_cpu_utilz.append(get_cpu(cpu2))
 
                 start_time = time.time()
+
     except KeyboardInterrupt:
-
-        plt.plot(pod1_mem_utilz, label="memory utilization pod1")
-        plt.plot(pod2_mem_utilz, label="memory utilization pod2")
-        plt.xlabel("time")
-        plt.ylabel("memory utilization")
-        plt.title("Memory Utilization")
-        plt.savefig(f"memory-utilization-{app_name}.png")
-        plt.close()
-
-        plt.plot(pod1_cpu_utilz, label="cpu utilization pod1")
-        plt.plot(pod2_cpu_utilz, label="cpu utilization pod2")
-        plt.xlabel("time")
-        plt.ylabel("cpu utilization")
-        plt.title("CPU Utilization")
-        plt.savefig(f"cpu-utilization-{app_name}.png")
-        plt.close()
-
+        with open(f"{logs_dir}/two-pod-diff-node-{app_name}.csv", "w") as f:
+            f.write("pod1_mem, pod1_cpu, pod2_mem, pod2_cpu\n")
+            for i1, j1, i2, j2 in zip(pod1_mem_utilz, pod1_cpu_utilz, pod2_mem_utilz, pod2_cpu_utilz): 
+                f.write(f"{i1}, {j1}, {i2}, {j2}\n")
 
 
 
@@ -292,22 +236,9 @@ if args.vpa:
                 start_time = time.time()
     
     except KeyboardInterrupt:
-
-        plt.plot(lb_cpu, label="lower bound cpu")
-        plt.plot(up_cpu, label="upper bound cpu")
-        plt.plot(target_cpu, label="target cpu")
-        plt.xlabel("time")
-        plt.ylabel("cpu")
-        plt.title("CPU")
-        plt.savefig(f"cpu-{app_name}.png")
-
-        plt.plot(lb_mem, label="lower bound memory")
-        plt.plot(up_mem, label="upper bound memory")
-        plt.plot(target_mem, label="target memory")
-        plt.xlabel("time")
-        plt.ylabel("memory")
-        plt.title("Memory")
-        plt.savefig(f"memory-{app_name}.png")
-        plt.close()
+        with open(f"{logs_dir}/vpa-{app_name}.csv", "w") as f:
+            f.write("lb_cpu, lb_mem, up_cpu, up_mem, target_cpu, target_mem\n")
+            for i, j, k, l, m, n in zip(lb_cpu, lb_mem, up_cpu, up_mem, target_cpu, target_mem):
+                f.write(f"{i}, {j}, {k}, {l}, {m}, {n}\n")
 
     
