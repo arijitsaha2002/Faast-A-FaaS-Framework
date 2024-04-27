@@ -10,7 +10,7 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
 1) **Single Pod Cluster** 
     - This contains a single pod with a single container deployed in a single node cluster. 
     - The following image shows the cluster configuration:
-        <img src="./images/single_pod.png"  width="600" height="300">
+        <img src="./images/single_pod.png"  width="400"> 
 
 2) **Single Pod with Multi-Container** 
     - This contains a pod with multiple containers deployed in a single node cluster with each container running the same service. 
