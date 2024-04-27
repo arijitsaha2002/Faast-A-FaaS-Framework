@@ -15,20 +15,21 @@ map_url=$7
 
 
 if [ "$app_type" == "two-container" ]; then
+	
+	read -p "Enter appfile-1: " app_file1
+	read -p "Enter port-1: " port1
 
-	port1=$(($port+1))
-	port2=$(($port+2))
+	read -p "Enter appfile-2: " app_file2
+	read -p "Enter port-2: " port2
 
-	echo "Building two container app with application running on two ports $port1 and $port2"
-
-	./build_image.sh "$docker_image_name-1" $python_app_file $requirements_file $port1
+	./build_image.sh "$docker_image_name-1" $app_file1 $requirements_file $port1
 	
 	if [ $? -ne 0 ]; then
 	  echo "Failed to build docker image-1"
 	  exit 1
 	fi
 
-	./build_image.sh "$docker_image_name-2" $python_app_file $requirements_file $port2
+	./build_image.sh "$docker_image_name-2" $app_file2 $requirements_file $port2
 
 	if [ $? -ne 0 ]; then
 	  echo "Failed to build docker image-2"
