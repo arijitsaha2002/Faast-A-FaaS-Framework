@@ -141,7 +141,7 @@ if args.two_container:
 if args.hpa:
     hpa_name = "hpa-deployment-" + app_name
     url = url_pref + "/autoscaling/v1/namespaces/default/horizontalpodautoscalers/" + hpa_name
-    
+    print(url) 
     replicas_count = []
     hpa_target = []
     current_cpu_utilz = []

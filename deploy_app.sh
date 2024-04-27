@@ -35,7 +35,8 @@ if [ "$app_type" == "two-container" ]; then
 	  exit 1
 	fi
 
-	bash Deployments/$app_type/map_function.sh $app_name "$docker_image_name-1" "$docker_image_name-2" $map_url $port1 $port2
+	cd Deployments/$app_type
+	bash map_function.sh $app_name "$docker_image_name-1" "$docker_image_name-2" $map_url $port1 $port2
 
 
 else
@@ -46,7 +47,8 @@ else
 	  exit 1
 	fi
 
-	bash Deployments/$app_type/map_function.sh $app_name $docker_image_name $map_url $port
+	cd Deployments/$app_type 
+	bash map_function.sh $app_name $docker_image_name $map_url $port
 fi
 
 
