@@ -10,37 +10,49 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
 1) **Single Pod Cluster** 
     - This contains a single pod with a single container deployed in a single node cluster. 
     - The following image shows the cluster configuration:
+    <p align="center">
         <img src="./images/single_pod.png"  width="400"> 
+    </p>
 
 2) **Single Pod with Multi-Container** 
     - This contains a pod with multiple containers deployed in a single node cluster with each container running the same service. 
     - This also contains a pod which runs a *nginx-loadbalancer* and routes the incoming requests to the both the containers of the pod running FaaS service.
     - The following image shows the cluster configuration:
-    ![](./images/one_pod_two_container.png)
+    <p align="center">
+        <img src="./images/one_pod_two_container.png"  width="400"> 
+    </p>
 
 3) **Multi-Pod with Single Node** 
     - This contains multiple pods (each containing one container which runs FaaS service) deployed in a single node. 
     - This also contains a pod which runs a *nginx-loadbalancer* and routes the incoming requests to the pods running FaaS service. 
     - The following image shows the cluster configuration:
-    ![](./images/one_node_two_pod.png)
+    <p align="center">
+        <img src="./images/one_node_two_pod.png"  width="400"> 
+    </p>
 
 4) **Multi-Pod with Multi-Node** 
     - This contains multiple pods (each containing one container which runs FaaS service) deployed in two different nodes.
     - This also contains a pod which runs a *nginx-loadbalancer* and routes the incoming requests to the pods running FaaS service via their respective services.
     - The following image shows the cluster configuration:
-    ![](./images/two_node.png)
+    <p align="center">
+        <img src="./images/two_node.png"  width="400"> 
+    </p>
 
 5) **Horizontal Pod Autoscaler** 
     - This contains multiple replica set of pods (initially containing single pod) deployed in a single node.
     - HPA *scales out* when the resource requirements goes beyond the set limits and adjust the number of pods accordingly. 
     - The following image shows the cluster configuration:
-    ![](./images/hpa.png)
+    <p align="center">
+        <img src="./images/hpa.png"  width="400"> 
+    </p>
 
 6) **Vertical Pod Autoscaler**
     - This contains a single pod enabled with VPA deployed in a single node. 
     - VPA *scales up* when the resource requirements goes beyond the set limits and adjust the pod resources accordingly. 
     - The following image shows the cluster configuration:
-    ![](./images/vpa.png)
+    <p align="center">
+        <img src="./images/vpa.png"  width="400"> 
+    </p>
 
 ### Metrics
 1) **Latency and Throughput** 
@@ -99,9 +111,17 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
     ```
 - Execute the following python file to generate the plots for the analysis:
     ```bash
-    usage: script to generate plot from log files
-       [-h] --app-type APP_TYPE
-       [--response-log RESPONSE_LOG]
-       [--resources-log RESOURCES_LOG] --output-folder OUTPUT_FOLDER
+    usage: script to generate plot from log files [-h] --app-type APP_TYPE
+                                                  [--response-log RESPONSE_LOG]
+                                                  [--resources-log RESOURCES_LOG] --output-folder
+                                                  OUTPUT_FOLDER --app-name APP_NAME
+
+    options:
+      -h, --help            show this help message and exit
+      --app-type APP_TYPE   single-pod/two-pod-same-node/two-pod-diff-node/hpa/vpa/two-container
+      --response-log RESPONSE_LOG
+      --resources-log RESOURCES_LOG
+      --output-folder OUTPUT_FOLDER
+      --app-name APP_NAME
     ```
 
