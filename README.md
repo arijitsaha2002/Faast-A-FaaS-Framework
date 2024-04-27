@@ -59,7 +59,15 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
     - **Beauituful Loops** - This worload simply runs a for loop doing some simple computation.
     - **Random Weird Text** - This worload simply generates some random text and returns it as response. 
 
-### Running Instructions for Setting up a Cluster Environment
+### Requirements
+- We need to install the following tools in order to run the experiments:
+    - [docker](https://docs.docker.com/get-docker/)
+    - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+    - [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+    - [helm](https://helm.sh/docs/intro/install/)
+
+
+### Running Instructions for Setting up a Cluster Environment    
 - Run the following command to setup the environment for running cluster configurations
     ```bash
     bash setup.sh
@@ -73,11 +81,7 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
     bash deploy_app.sh <app_name> <app_type> <docker_image_name> <python-app-file> <requirements-file> <port> <map_url>
     ```
 
-### Running Instructions for Simulating the Worload on various Cluster Configuration
-#### Setup
-- Clone the repository and navigate to the directory
-- Install the required tools which are [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) and [helm](https://helm.sh/docs/intro/install/)
-#### Generating Analysis Results
+### Generating Analysis Results
 - We need to setup metrics-server REST-API. Run the following command in two different terminal windows:
     ```bash
     minikube dashboard --port=20000
