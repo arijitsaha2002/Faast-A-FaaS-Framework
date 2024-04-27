@@ -94,14 +94,14 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
     ```
 
 ### Generating Analysis Results
-- We need to setup metrics-server REST-API. Run the following command in two different terminal windows:
+- Run the following python file in *analysis* directory to perform the analysis for different cluster configurations to generate the logs for response-time and resource utilization:
+    To get the *<host>* for making requests run 
     ```bash
-    minikube dashboard --port=20000
+    minikube ip
     ```
-
-- Now, run the following command to perform the analysis for different cluster configurations to generate the logs for response-time and resource utilization:
+    And then run the following command:
     ```bash
-    bash src/analysis/perform_analysis.sh <host> <url> <app-type> <app-name>
+    bash perform_analysis.sh <host> <url> <app-type> <app-name>
     ```
     This will generate the all the logs for response-time and resource utilization based on a worload defined earlier.
     The file names are in the following format:
@@ -111,7 +111,7 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
     ```
 - Execute the following python file to generate the plots for the analysis:
     ```bash
-    python3 analysis/get_plot_from_log.py
+    python3 get_plot_from_log.py
     usage: script to generate plot from log files [-h] --app-type APP_TYPE
                                                   [--response-log RESPONSE_LOG]
                                                   [--resources-log RESOURCES_LOG] --output-folder

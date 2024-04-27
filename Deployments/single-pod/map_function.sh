@@ -25,6 +25,7 @@ spec:
   containers:
   - name: $APP_NAME-container
     image: $IMAGE_NAME 
+    imagePullPolicy: IfNotPresent
     ports:
     - containerPort: $PORT_NUMBER 
     resources:
@@ -66,4 +67,3 @@ spec:
               number: 8080 
 " > "$APP_NAME-$APP_TYPE".yaml
 kubectl apply -f "$APP_NAME-$APP_TYPE".yaml
-

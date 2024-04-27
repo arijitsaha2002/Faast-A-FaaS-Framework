@@ -6,7 +6,7 @@ if [ $# -ne 7 ]; then
 fi
 
 app_name=$1
-cluster_config_dir=$2
+app_type=$2
 docker_image_name=$3
 python_app_file=$4
 requirements_file=$5
@@ -14,7 +14,7 @@ port=$6
 map_url=$7
 
 
-if [ $app_type == "two-container" ]; then
+if [ "$app_type" == "two-container" ]; then
 
 	port1=$(($port+1))
 	port2=$(($port+2))
@@ -35,7 +35,7 @@ if [ $app_type == "two-container" ]; then
 	  exit 1
 	fi
 
-	bash $cluster_config_dir/map_function.sh $app_name "$docker_image_name-1" "$docker_image_name-2" $map_url $port1 $port2
+	bash Deployments/$app_type/map_function.sh $app_name "$docker_image_name-1" "$docker_image_name-2" $map_url $port1 $port2
 
 
 else
@@ -46,6 +46,7 @@ else
 	  exit 1
 	fi
 
-	bash $cluster_config_dir/map_function.sh $app_name $docker_image_name $map_url $port
+	bash Deployments/$app_type/map_function.sh $app_name $docker_image_name $map_url $port
 fi
+
 

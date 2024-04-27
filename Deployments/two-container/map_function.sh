@@ -24,6 +24,7 @@ spec:
   containers:
   - name: $APP_NAME-container-1
     image: $IMAGE_NAME1
+    imagePullPolicy: IfNotPresent
     ports:
     - containerPort: $PORT_NUMBER1 
     resources:
@@ -33,6 +34,7 @@ spec:
         cpu: 20m
   - name: $APP_NAME-container-2
     image: $IMAGE_NAME2 
+    imagePullPolicy: IfNotPresent
     ports:
     - containerPort: $PORT_NUMBER2
     resources:

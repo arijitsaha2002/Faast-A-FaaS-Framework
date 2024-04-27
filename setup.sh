@@ -12,5 +12,5 @@ helm repo add cowboysysop https://cowboysysop.github.io/charts/
 helm -n kube-system upgrade --install vertical-pod-autoscaler cowboysysop/vertical-pod-autoscaler
 
 #run tunnel
-minikube dashboard --port=20000 &
+echo "Visit this URL: $(minikube dashboard --port=20000 --url) to access the kubernetes dashboard"
 minikube tunnel

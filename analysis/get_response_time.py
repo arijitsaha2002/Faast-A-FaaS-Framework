@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import threading
 import subprocess
+import os
 
 parser = argparse.ArgumentParser("use this file to get response time of a server")
 parser.add_argument("--host", type=str, help='host of the server', required=True)
@@ -30,10 +31,11 @@ def fetch_url(url, index):
 
 
 num_req_parallel = [1, 10, 50]
+num_iter = 500
 
 for num_req in num_req_parallel:
-    print(f"Sending request with {num_req} parallel requests for around 120 seconds ...")
-    for j in range(1000):
+    print(f"Sending request with {num_req} parallel requests for {num_iter} iterations ...")
+    for j in range(num_iter):
         threads = []
         response_time_array = [0.0]*num_req
         for i in range(num_req):
@@ -51,7 +53,7 @@ for num_req in num_req_parallel:
     print("Sleeping for 5 seconds ...")
     time.sleep(5)
 
-with open("{args.app_type}-{args.app_name}-response-time.csv", "w") as f:
-    f.write("avg, max\n")
+with open(os.path.join(args.logs_dir, f"{args.app_type}-{args.app_name}-response-time.csv"), "w") as f:
+    f.write("avg,max\n")
     for i in range(len(response_time_avg)):
         f.write(f"{response_time_avg[i]},{response_time_max[i]}\n")

@@ -7,39 +7,37 @@ fi;
 
 APP_NAME="$1"
 URL="$3"
-APP_TYPE="nginx-single-pod-deployment"
+APP_TYPE="two-deployment"
 IMAGE_NAME="$2"
 PORT_NUMBER="$4"
 
+
 echo "
 apiVersion: v1
-kind: Pod
+kind: Node
 metadata:
-  name: $APP_NAME-single-pod-1
   labels:
-    app: $APP_NAME-single-pod-1
-spec:
-  containers:
-  - name: $APP_NAME-single-container
-    image: $IMAGE_NAME
-    ports:
-    - containerPort: $PORT_NUMBER 
-    resources:
-      limits:
-        memory: 50Mi
-      requests:
-        cpu: 20m
+    app: $APP_NAME-node1  # Label for the first node
+  name: minikube
+---
+apiVersion: v1
+kind: Node
+metadata:
+  labels:
+    app: $APP_NAME-node2  # Label for the second node
+  name: minikube-m02
 ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: $APP_NAME-single-pod-2
+  name: $APP_NAME-node1-pod
   labels:
-    app: $APP_NAME-single-pod-2
+    app: $APP_NAME-node1-pod
 spec:
   containers:
-  - name: $APP_NAME-single-container
+  - name: $APP_NAME-container-01
     image: $IMAGE_NAME
+    imagePullPolicy: IfNotPresent
     ports:
     - containerPort: $PORT_NUMBER
     resources:
@@ -47,33 +45,79 @@ spec:
         memory: 50Mi
       requests:
         cpu: 20m
+  nodeSelector:
+    app: $APP_NAME-node1  # Select the first node
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $APP_NAME-node1-pod-service
+spec:
+  selector:
+    app: $APP_NAME-node1-pod 
+  ports:
+  - protocol: TCP
+    port: 8080  
+    targetPort: $PORT_NUMBER  
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: $APP_NAME-node2-pod
+  labels:
+    app: $APP_NAME-node2-pod 
+spec:
+  containers:
+  - name: $APP_NAME-container
+    image: $IMAGE_NAME
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: $PORT_NUMBER 
+  nodeSelector:
+    app: $APP_NAME-node2  # Select the second node
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $APP_NAME-node2-pod-service
+spec:
+  selector:
+    app: $APP_NAME-node2-pod
+  ports:
+  - protocol: TCP
+    port: 8080  
+    targetPort: $PORT_NUMBER  
+  type: LoadBalancer
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   name: $APP_NAME-nginx-loadbalancer 
   labels:
-    app: $APP_NAME-nginx-loadbalancer 
+    app: $APP_NAME-nginx-loadbalancer
 spec:
   containers:
-  - name: nginx-loadbalancer-container
+  - name: $APP_NAME-nginx-loadbalancer-container
     image: nginx
     ports:
     - containerPort: 80
+  nodeSelector:
+    app: $APP_NAME-node1  # Select the first node
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: $APP_NAME-nginx-service
+  name: $APP_NAME-loadbalancer-service
 spec:
   selector:
-    app: $APP_NAME-nginx-loadbalancer 
+    app: $APP_NAME-nginx-loadbalancer
   ports:
   - protocol: TCP
     port: 80  
     targetPort: 80  
   type: LoadBalancer
-
+---
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -90,10 +134,9 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: $APP_NAME-nginx-service
+            name: $APP_NAME-loadbalancer-service
             port:
               number: 80 
-
 " > "$APP_NAME-$APP_TYPE".yaml
 kubectl apply -f "$APP_NAME-$APP_TYPE".yaml
 
@@ -111,6 +154,6 @@ while [ $container_status -ne 1 ]; do
 	sleep 1
 done
 
-./setup_nginx.sh $APP_NAME $PORT_NUMBER
+./setup_nginx.sh $APP_NAME
 
 echo "Deployment of $APP_NAME is successful."

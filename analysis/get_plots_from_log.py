@@ -21,8 +21,8 @@ os.makedirs(f"{args.output_folder}/{args.app_type}", exist_ok=True)
 
 if args.response_log:
     response_data = pd.read_csv(args.response_log) 
-    plt.plot(response_data.avg, label="avg response time")
-    plt.plot(response_data.max, label="max response time")
+    plt.plot(response_data["avg"].values, label="avg response time")
+    plt.plot(response_data["max"].values, label="max response time")
     plt.legend()
     plt.savefig(f"{args.output_folder}/{args.app_type}/response-time-{args.app_type}-{args.app_name}.png")
     plt.close()

@@ -60,9 +60,9 @@ if args.single_pod:
     except KeyboardInterrupt:
 
         with open(f"{logs_dir}/single-pod-{app_name}-resource_usage.csv", "w") as f:
-            f.write("mem, cpu\n")
+            f.write("mem,cpu\n")
             for i, j in zip(mem_utilz, cpu_utilz):
-                f.write(f"{i}, {j}\n")    
+                f.write(f"{i},{j}\n")    
     
 if args.two_pod_same_node:
     pod1_name = app_name + "-single-pod-1"
@@ -100,9 +100,9 @@ if args.two_pod_same_node:
     except KeyboardInterrupt:
 
         with open(f"{logs_dir}/two-pod-same-node-{app_name}-resource_usage.csv", "w") as f:
-            f.write("pod1_mem, pod1_cpu, pod2_mem, pod2_cpu\n")
+            f.write("pod1_mem,pod1_cpu,pod2_mem,pod2_cpu\n")
             for i1, j1, i2, j2 in zip(pod1_mem_utilz, pod1_cpu_utilz, pod2_mem_utilz, pod2_cpu_utilz): 
-                f.write(f"{i1}, {j1}, {i2}, {j2}\n")
+                f.write(f"{i1},{j1},{i2},{j2}\n")
 
 if args.two_container:
     pod_name = app_name + "-app-1"
@@ -133,9 +133,9 @@ if args.two_container:
     except KeyboardInterrupt:
         
         with open(f"{logs_dir}/two-container-{app_name}-resource_usage.csv", "w") as f:
-            f.write("cont1_mem, cont1_cpu, cont2_mem, cont2_cpu\n")
+            f.write("cont1_mem,cont1_cpu,cont2_mem,cont2_cpu\n")
             for i1, j1, i2, j2 in zip(cont1_mem_utilz, cont1_cpu_utilz, cont2_mem_utilz, cont2_cpu_utilz): 
-                f.write(f"{i1}, {j1}, {i2}, {j2}\n")
+                f.write(f"{i1},{j1},{i2},{j2}\n")
     
     
 if args.hpa:
@@ -159,9 +159,9 @@ if args.hpa:
     except KeyboardInterrupt:
 
         with open(f"{logs_dir}/hpa-{app_name}-resource_usage.csv", "w") as f:
-            f.write("replicas_count, current_cpu_utilz, hpa_target\n")
+            f.write("replicas_count,current_cpu_utilz,hpa_target\n")
             for i, j, k in zip(replicas_count, current_cpu_utilz, hpa_target):
-                f.write(f"{i}, {j}, {k}\n") 
+                f.write(f"{i},{j},{k}\n") 
 
 
 if args.two_pod_diff_node:
@@ -199,9 +199,9 @@ if args.two_pod_diff_node:
 
     except KeyboardInterrupt:
         with open(f"{logs_dir}/two-pod-diff-node-{app_name}-resource_usage.csv", "w") as f:
-            f.write("pod1_mem, pod1_cpu, pod2_mem, pod2_cpu\n")
+            f.write("pod1_mem,pod1_cpu,pod2_mem,pod2_cpu\n")
             for i1, j1, i2, j2 in zip(pod1_mem_utilz, pod1_cpu_utilz, pod2_mem_utilz, pod2_cpu_utilz): 
-                f.write(f"{i1}, {j1}, {i2}, {j2}\n")
+                f.write(f"{i1},{j1},{i2},{j2}\n")
 
 
 
@@ -237,7 +237,7 @@ if args.vpa:
     
     except KeyboardInterrupt:
         with open(f"{logs_dir}/vpa-{app_name}-resource_usage.csv", "w") as f:
-            f.write("lb_cpu, lb_mem, up_cpu, up_mem, target_cpu, target_mem\n")
+            f.write("lb_cpu,lb_mem,up_cpu,up_mem,target_cpu,target_mem\n")
             for i, j, k, l, m, n in zip(lb_cpu, lb_mem, up_cpu, up_mem, target_cpu, target_mem):
-                f.write(f"{i}, {j}, {k}, {l}, {m}, {n}\n")
+                f.write(f"{i},{j},{k},{l},{m},{n}\n")
     
