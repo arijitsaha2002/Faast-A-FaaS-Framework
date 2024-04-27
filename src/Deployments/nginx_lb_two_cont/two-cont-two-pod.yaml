@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: two-pods-single-pod-1
+  name: two-cont-app-1
   labels:
-    app: two-pods-single-pod-1
+    app: two-cont-app-1
 spec:
   containers:
-  - name: two-pods-single-container
+  - name: two-cont-container-1
     image: arijitsaha2002/flask_app:0.2
     ports:
     - containerPort: 5000 
@@ -16,19 +16,10 @@ spec:
         memory: 50Mi
       requests:
         cpu: 20m
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: two-pods-single-pod-2
-  labels:
-    app: two-pods-single-pod-2
-spec:
-  containers:
-  - name: two-pods-single-container
-    image: arijitsaha2002/flask_app:0.2
+  - name: two-cont-container-2
+    image: arijitsaha2002/flask_app:0.4 
     ports:
-    - containerPort: 5000
+    - containerPort: 5001
     resources:
       limits:
         memory: 50Mi
@@ -38,9 +29,9 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: two-pods-nginx-loadbalancer 
+  name: nginx-loadbalancer-two-cont
   labels:
-    app: two-pods-nginx-loadbalancer 
+    app: nginx-loadbalancer-two-cont
 spec:
   containers:
   - name: nginx-loadbalancer-container
@@ -51,10 +42,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: two-pods-nginx-service
+  name: nginx-loadbalancer-service-two-cont
 spec:
   selector:
-    app: two-pods-nginx-loadbalancer 
+    app: nginx-loadbalancer-two-cont
   ports:
   - protocol: TCP
     port: 80  
@@ -73,12 +64,11 @@ spec:
   rules:
   - http:
       paths:
-      - path: /two-pods/(.*)
+      - path: /two-cont/(.*)
         pathType: ImplementationSpecific
         backend:
           service:
-            name: two-pods-nginx-service
+            name: nginx-loadbalancer-service-two-cont
             port:
               number: 80 
-
 
