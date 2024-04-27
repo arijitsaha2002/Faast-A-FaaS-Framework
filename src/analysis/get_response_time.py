@@ -4,6 +4,7 @@ import argparse
 import requests
 import numpy as np
 import matplotlib.pyplot as plt
+import threading
 
 parser = argparse.ArgumentParser("use this file to get response time of a server")
 parser.add_argument("--host", type=str, help='host of the server', required=True)
@@ -14,7 +15,7 @@ parser.add_argument("--app-type", type=str, help='type of the app', required=Tru
 parser.add_argument("--app-name", type=str, help='name of the app', required=True)
 args = parser.parse_args()
 
-# num requests
+print("Sending request with sleep time 0.1")
 response_time = []
 curr_time = time.time()
 while time.time() - curr_time < 120:
@@ -24,6 +25,10 @@ while time.time() - curr_time < 120:
     end_time = time.time()
     response_time.append(end_time - start_time)
 
+print("Sleeping for 5 seconds")
+time.sleep(5)
+
+print("Sending request with sleep time 0.01")
 while time.time() - curr_time < 120:
     time.sleep(0.01)
     start_time = time.time()
@@ -31,7 +36,11 @@ while time.time() - curr_time < 120:
     end_time = time.time()
     response_time.append(end_time - start_time)
 
+print("Sleeping for 5 seconds")
+time.sleep(5)
 
+
+print("Sending request with sleep time 0.001")
 while time.time() - curr_time < 120:
     time.sleep(0.001)
     start_time = time.time()

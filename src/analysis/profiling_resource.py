@@ -107,10 +107,22 @@ if args.two_pod_same_node:
 
                 start_time = time.time()
     except KeyboardInterrupt:
-        print(pod1_mem_utilz)
-        print(pod1_cpu_utilz)
-        print(pod2_mem_utilz)
-        print(pod2_cpu_utilz)
+        plt.plot(pod1_mem_utilz, label="memory utilization pod1")
+        plt.plot(pod2_mem_utilz, label="memory utilization pod2")
+        plt.xlabel("time")
+        plt.ylabel("memory utilization")
+        plt.title("Memory Utilization")
+        plt.savefig(f"memory-utilization-{app_name}.png")
+        plt.close()
+
+        plt.plot(pod1_cpu_utilz, label="cpu utilization pod1")
+        plt.plot(pod2_cpu_utilz, label="cpu utilization pod2")
+        plt.xlabel("time")
+        plt.ylabel("cpu utilization")
+        plt.title("CPU Utilization")
+        plt.savefig(f"cpu-utilization-{app_name}.png")
+        plt.close()
+
         print("plotting remaining")
 
 if args.two_container:

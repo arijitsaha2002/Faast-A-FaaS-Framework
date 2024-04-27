@@ -18,12 +18,11 @@ python3 profiling_resource.py --$APP_TYPE --app-name $APP_NAME &
 child_pid=$!
 
 echo "Starting the requests ..."
-python3 get_response_time.py --app-type $APP_TYPE --app-name $APP_NAME --host $HOST --url $URL
+python3 get_response_time2.py --app-type $APP_TYPE --app-name $APP_NAME --host $HOST --url $URL
 echo "Requests done"
 
 echo "Sleeping for 60 seconds ..."
 sleep 60
 kill -2 $child_pid
-echo "Look at response-time-${APP_TYPE}-${APP_NAME}.png for response time of ${APP_NAME}"
 
 fg %1
