@@ -21,8 +21,8 @@ echo "Starting the requests ..."
 python3 get_response_time2.py --app-type $APP_TYPE --app-name $APP_NAME --host $HOST --url $URL
 echo "Requests done"
 
-echo "Sleeping for 60 seconds ..."
-sleep 60
+echo "Sleeping for 20 seconds ..."
+sleep 20
 kill -2 $child_pid
 
 fg %1

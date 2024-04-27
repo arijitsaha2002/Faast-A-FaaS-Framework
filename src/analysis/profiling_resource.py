@@ -152,11 +152,24 @@ if args.two_container:
 
                 start_time = time.time()
     except KeyboardInterrupt:
-        print(cont1_mem_utilz)
-        print(cont1_cpu_utilz)
-        print(cont2_mem_utilz)
-        print(cont2_cpu_utilz)
-        print("plotting remaining")
+        plt.plot(cont1_mem_utilz, label="memory utilization cont1") 
+        plt.plot(cont2_mem_utilz, label="memory utilization cont2")
+        plt.plot([i + j for i,j in zip(cont1_mem_utilz, cont2_mem_utilz)], label="pod memory utilization")
+        plt.xlabel("time")
+        plt.ylabel("memory utilization")
+        plt.title("Memory Utilization")
+        plt.savefig(f"memory-utilization-{app_name}.png")
+        plt.close()
+        
+        plt.plot(cont1_cpu_utilz, label="cpu utilization cont1")
+        plt.plot(cont2_cpu_utilz, label="cpu utilization cont2")
+        plt.plot([i + j for i,j in zip(cont1_cpu_utilz, cont2_cpu_utilz)], label="pod cpu utilization")
+        plt.xlabel("time")
+        plt.ylabel("cpu utilization")
+        plt.title("CPU Utilization")
+        plt.savefig(f"cpu-utilization-{app_name}.png")
+        plt.close()
+
     
 if args.hpa:
     hpa_name = "hpa-deployment-" + app_name
@@ -177,10 +190,22 @@ if args.hpa:
 
                 start_time = time.time()
     except KeyboardInterrupt:
-        print(replicas_count)
-        print(current_cpu_utilz)
-        print(hpa_target)
-        print("plotting remaining")
+        
+        plt.plot(replicas_count, label="replicas count")
+        plt.xlabel("time")
+        plt.ylabel("replicas count")
+        plt.title("Replicas Count")
+        plt.savefig(f"replicas-count-{app_name}.png")
+        plt.close()
+
+        plt.plot(current_cpu_utilz, label="current cpu utilization")
+        plt.plot(hpa_target, label="hpa target cpu utilization")
+        plt.xlabel("time")
+        plt.ylabel("cpu utilization")
+        plt.title("CPU Utilization")
+        plt.savefig(f"cpu-utilization-{app_name}.png")
+        plt.close()
+
 
 
 if args.two_pod_diff_node:
@@ -216,11 +241,23 @@ if args.two_pod_diff_node:
 
                 start_time = time.time()
     except KeyboardInterrupt:
-        print(pod1_mem_utilz)
-        print(pod1_cpu_utilz)
-        print(pod2_mem_utilz)
-        print(pod2_cpu_utilz)
-        print("plotting remaining")
+
+        plt.plot(pod1_mem_utilz, label="memory utilization pod1")
+        plt.plot(pod2_mem_utilz, label="memory utilization pod2")
+        plt.xlabel("time")
+        plt.ylabel("memory utilization")
+        plt.title("Memory Utilization")
+        plt.savefig(f"memory-utilization-{app_name}.png")
+        plt.close()
+
+        plt.plot(pod1_cpu_utilz, label="cpu utilization pod1")
+        plt.plot(pod2_cpu_utilz, label="cpu utilization pod2")
+        plt.xlabel("time")
+        plt.ylabel("cpu utilization")
+        plt.title("CPU Utilization")
+        plt.savefig(f"cpu-utilization-{app_name}.png")
+        plt.close()
+
 
 
 
@@ -255,11 +292,22 @@ if args.vpa:
                 start_time = time.time()
     
     except KeyboardInterrupt:
-        print(lb_cpu)
-        print(lb_mem)
-        print(up_cpu)
-        print(up_mem)
-        print(target_cpu)
-        print(target_mem)
-        print("plotting remaining")
+
+        plt.plot(lb_cpu, label="lower bound cpu")
+        plt.plot(up_cpu, label="upper bound cpu")
+        plt.plot(target_cpu, label="target cpu")
+        plt.xlabel("time")
+        plt.ylabel("cpu")
+        plt.title("CPU")
+        plt.savefig(f"cpu-{app_name}.png")
+
+        plt.plot(lb_mem, label="lower bound memory")
+        plt.plot(up_mem, label="upper bound memory")
+        plt.plot(target_mem, label="target memory")
+        plt.xlabel("time")
+        plt.ylabel("memory")
+        plt.title("Memory")
+        plt.savefig(f"memory-{app_name}.png")
+        plt.close()
+
     

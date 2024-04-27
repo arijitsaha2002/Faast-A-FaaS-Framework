@@ -1,14 +1,14 @@
 #!/bin/bash
 
-if [ "$#" -ne 4 ]; then
-	echo "Usage: $0 <IP1> <PORT1> <PORT2> <NGINX_CONT_NAME>"
+if [ "$#" -ne 3 ]; then
+	echo "Usage: $0 <APP_NAME> <PORT1> <PORT2>"
 	exit 1
 fi
-
-IP1=$1
+APP_NAME=$1
+IP1=$(kubectl get pods -o wide | grep "$APP_NAME-app-1" | awk '{print $6}')
 PORT1=$2
 PORT2=$3
-NGINX_CONT_NAME=$4
+NGINX_CONT_NAME="nginx-loadbalancer-$APP_NAME"
 
 DEFAULT_CONF_FILE=$(echo "
 upstream backend {

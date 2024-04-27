@@ -4,7 +4,6 @@ import argparse
 import requests
 import numpy as np
 import matplotlib.pyplot as plt
-import threading
 
 parser = argparse.ArgumentParser("use this file to get response time of a server")
 parser.add_argument("--host", type=str, help='host of the server', required=True)
