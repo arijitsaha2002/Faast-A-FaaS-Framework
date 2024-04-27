@@ -10,10 +10,9 @@ def get_cpu(cpu):
     if(cpu[-1] == "n"):
         cpu = int(cpu[:-1])/(10**9)
     elif cpu[-1] == "m":
-        cpu[-1] = int(cpu)/(1000)
-    else:
-        cpu = -1
-    return cpu
+        cpu = int(cpu[:-1])/(1000)
+
+    return int(cpu)
 
 def get_mem(mem):
     if(mem[-2:] == "Ki"):
@@ -206,9 +205,8 @@ if args.two_pod_diff_node:
 
 
 if args.vpa:
-    pod_name = app_name + "-app"
-
-    url = url_pref + "/autoscaling.k8s.io/v1/namespaces/default/verticalpodautoscalers/" + pod_name
+    vpa_name = "vpa-development-" + app_name 
+    url = url_pref + "/autoscaling.k8s.io/v1/namespaces/default/verticalpodautoscalers/" + vpa_name
     
     lb_cpu = []
     lb_mem = []
