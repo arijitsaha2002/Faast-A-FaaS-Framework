@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vpa-app
+  name: arijit-vpa-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: vpa-app
+      app: arijit-vpa-app
   template:
     metadata:
       labels:
-        app: vpa-app 
+        app: arijit-vpa-app 
     spec:
       containers:
-      - name: vpa-app 
-        image: vpa
+      - name: arijit-vpa-app 
+        image: arijit-vpa
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000 
@@ -28,27 +28,27 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vpa-service
+  name: arijit-vpa-service
   labels:
-    app: vpa-app
+    app: arijit-vpa-app
 spec:
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 5000 
   selector:
-    app: vpa-app 
+    app: arijit-vpa-app 
   type: LoadBalancer
 ---
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: vpa-development-vpa
+  name: vpa-development-arijit-vpa
 spec:
   targetRef:
     apiVersion: "apps/v1"
     kind: Deployment
-    name: vpa-app
+    name: arijit-vpa-app
   resourcePolicy:
     containerPolicies:
       - containerName: '*'
@@ -75,7 +75,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: vpa-service
+            name: arijit-vpa-service
             port:
               number: 8080 
 

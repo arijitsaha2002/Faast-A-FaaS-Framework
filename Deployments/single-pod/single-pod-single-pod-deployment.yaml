@@ -1,0 +1,52 @@
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: single-pod-pod
+  labels:
+    app: single-pod-pod 
+spec:
+  containers:
+  - name: single-pod-container
+    image: single-pod 
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 5000 
+    resources:
+      limits:
+        memory: 50Mi
+      requests:
+        cpu: 20m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: single-pod-pod-service
+spec:
+  selector:
+    app: single-pod-pod  
+  ports:
+  - protocol: TCP
+    port: 8080  
+    targetPort: 5000  
+  type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress 
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /single-pod/(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: single-pod-pod-service
+            port:
+              number: 8080 
+

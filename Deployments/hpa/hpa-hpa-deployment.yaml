@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vpa-app
+  name: hpa-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: vpa-app
+      app: hpa-app
   template:
     metadata:
       labels:
-        app: vpa-app 
+        app: hpa-app 
     spec:
       containers:
-      - name: vpa-app 
-        image: vpa
+      - name: hpa-app 
+        image: hpa
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000 
@@ -28,37 +28,36 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vpa-service
+  name: hpa-service
   labels:
-    app: vpa-app
+    app: hpa-app
 spec:
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 5000 
   selector:
-    app: vpa-app 
+    app: hpa-app 
   type: LoadBalancer
 ---
-apiVersion: autoscaling.k8s.io/v1
-kind: VerticalPodAutoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
 metadata:
-  name: vpa-development-vpa
+ name: hpa-deployment-hpa
 spec:
-  targetRef:
-    apiVersion: "apps/v1"
-    kind: Deployment
-    name: vpa-app
-  resourcePolicy:
-    containerPolicies:
-      - containerName: '*'
-        minAllowed:
-          cpu: 20m
-          memory: 50Mi
-        maxAllowed:
-          cpu: 1
-          memory: 100Mi 
-        controlledResources: ["cpu", "memory"]
+ scaleTargetRef:
+   apiVersion: apps/v1
+   kind: Deployment
+   name: hpa-app
+ minReplicas: 1
+ maxReplicas: 10
+ metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -71,11 +70,11 @@ spec:
   rules:
   - http:
       paths:
-      - path: /vpa/(.*)
+      - path: /hpa/(.*)
         pathType: ImplementationSpecific
         backend:
           service:
-            name: vpa-service
+            name: hpa-service
             port:
               number: 8080 
 

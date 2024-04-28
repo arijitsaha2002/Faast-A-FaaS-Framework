@@ -17,6 +17,8 @@ parser.add_argument("--app-name", type=str, help='name of the app', required=Tru
 parser.add_argument("--logs-dir", type=str, help='logs directory', required=True)
 args = parser.parse_args()
 
+sample_output = subprocess.run(['curl', '-s', f"http://{args.host}/{args.url}"], capture_output=True)
+print(sample_output.stdout)
 response_time_avg = []
 response_time_max = []
 response_time_array = []
