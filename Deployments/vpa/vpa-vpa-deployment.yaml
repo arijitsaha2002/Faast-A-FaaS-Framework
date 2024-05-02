@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: vpa-app 
-        image: vpa
+        image: arijitsaha2002/flask_app:0.5
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000 
@@ -59,23 +59,4 @@ spec:
           cpu: 1
           memory: 100Mi 
         controlledResources: ["cpu", "memory"]
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: my-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-spec:
-  ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /vpa/(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: vpa-service
-            port:
-              number: 8080 
 

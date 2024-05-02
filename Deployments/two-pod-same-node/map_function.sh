@@ -11,6 +11,17 @@ APP_TYPE="nginx-single-pod-deployment"
 IMAGE_NAME="$2"
 PORT_NUMBER="$4"
 
+if [[ -f ../ingress.csv ]]; 
+then
+    same_url=$(awk -F',' '{print $1}' ../ingress.csv | grep -oE "$URL" | head -1)
+    if [[ $same_url != "" ]];
+    then
+        echo "url already used retry something else"
+        exit 1;
+    fi;
+fi;
+
+
 echo "
 apiVersion: v1
 kind: Pod
@@ -75,28 +86,13 @@ spec:
     port: 80  
     targetPort: 80  
   type: LoadBalancer
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: my-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /\$1
-spec:
-  ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /$URL/(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: $APP_NAME-nginx-service
-            port:
-              number: 80 
-
 " > "$APP_NAME-$APP_TYPE".yaml
+if ! [[ -f ../ingress.csv ]];
+then
+    echo "url,service,port" >> ../ingress.csv
+fi;
+
+echo "$URL,$APP_NAME-nginx-service,80" >> ../ingress.csv
 kubectl apply -f "$APP_NAME-$APP_TYPE".yaml
 
 
@@ -116,3 +112,6 @@ done
 ./setup_nginx.sh $APP_NAME $PORT_NUMBER
 
 echo "Deployment of $APP_NAME is successful."
+cd ../
+./update-ingress.py
+kubectl apply -f "./ingress.yaml"

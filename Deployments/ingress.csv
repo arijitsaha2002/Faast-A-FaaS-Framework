@@ -1,0 +1,7 @@
+url,service,port
+hpa,hpa-service,8080
+single-url,single-pod-service,8080
+two-pod,two-name-nginx-service,80
+two-cont,nginx-loadbalancer-service-two-cont,80
+vpa,vpa-service,8080
+two-node,two-node-loadbalancer-service,80

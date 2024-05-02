@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: hpa-app 
-        image: hpa
+        image: arijitsaha2002/flask_app:0.5
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000 
@@ -59,22 +59,4 @@ spec:
         type: Utilization
         averageUtilization: 50
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: my-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-spec:
-  ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /hpa/(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: hpa-service
-            port:
-              number: 8080 
 

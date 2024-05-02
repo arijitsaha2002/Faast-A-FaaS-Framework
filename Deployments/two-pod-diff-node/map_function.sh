@@ -11,6 +11,16 @@ APP_TYPE="two-deployment"
 IMAGE_NAME="$2"
 PORT_NUMBER="$4"
 
+if [[ -f ../ingress.csv ]]; 
+then
+    same_url=$(awk -F',' '{print $1}' ../ingress.csv | grep -oE "$URL" | head -1)
+    if [[ $same_url != "" ]];
+    then
+        echo "url already used retry something else"
+        exit 1;
+    fi;
+fi;
+
 
 echo "
 apiVersion: v1
@@ -138,6 +148,12 @@ spec:
             port:
               number: 80 
 " > "$APP_NAME-$APP_TYPE".yaml
+if ! [[ -f ../ingress.csv ]];
+then
+    echo "url,service,port" >> ../ingress.csv
+fi;
+
+echo "$URL,$APP_NAME-loadbalancer-service,80" >> ../ingress.csv
 kubectl apply -f "$APP_NAME-$APP_TYPE".yaml
 
 
@@ -157,3 +173,6 @@ done
 ./setup_nginx.sh $APP_NAME
 
 echo "Deployment of $APP_NAME is successful."
+cd ../
+./update-ingress.py
+kubectl apply -f "./ingress.yaml"

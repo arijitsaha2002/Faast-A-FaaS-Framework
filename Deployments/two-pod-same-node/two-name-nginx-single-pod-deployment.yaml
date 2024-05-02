@@ -1,0 +1,65 @@
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: two-name-single-pod-1
+  labels:
+    app: two-name-single-pod-1
+spec:
+  containers:
+  - name: two-name-single-container
+    image: arijitsaha2002/flask_app:0.5
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 5000 
+    resources:
+      limits:
+        memory: 50Mi
+      requests:
+        cpu: 20m
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: two-name-single-pod-2
+  labels:
+    app: two-name-single-pod-2
+spec:
+  containers:
+  - name: two-name-single-container
+    image: arijitsaha2002/flask_app:0.5
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 5000
+    resources:
+      limits:
+        memory: 50Mi
+      requests:
+        cpu: 20m
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: two-name-nginx-loadbalancer 
+  labels:
+    app: two-name-nginx-loadbalancer 
+spec:
+  containers:
+  - name: nginx-loadbalancer-container
+    image: nginx
+    ports:
+    - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: two-name-nginx-service
+spec:
+  selector:
+    app: two-name-nginx-loadbalancer 
+  ports:
+  - protocol: TCP
+    port: 80  
+    targetPort: 80  
+  type: LoadBalancer
+
