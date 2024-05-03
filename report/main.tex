@@ -13,7 +13,7 @@
 \section{Introduction}
 Faast-A-Faas-Framework is a project designed to evaluate and compare different
 cluster configurations for Function as a Service (FaaS) platforms. The goal is
-to analyze performance metrics such as latency, throughput, and resource
+to analyze performance metrics such as response time and resource
 utilization across various setups. This report provides an overview of the
 project's approach, including the types of clusters tested, the workloads used
 for evaluation, and instructions for setting up and running experiments. By
@@ -160,22 +160,19 @@ The project considers the following cluster configurations:
     \end{minipage}
 \end{figure}
 
+
 \section{Metrics}
 This section discusses the metrics used to evaluate the performance and resource utilization of the Function as a Service (FaaS) platform across different cluster configurations. The two main types of workloads tested were a simple loop and a large Lorem Ipsum generator.
 
-\subsection{Latency and Throughput}
-Latency and throughput are critical performance metrics for evaluating FaaS services:
-
 \begin{itemize}
-    \item \textbf{Latency:} The time taken for a request to be processed by the FaaS service and return a response. Lower latency is generally preferred as it indicates faster response times and better user experience.
-    \item \textbf{Throughput:} The number of requests that can be processed per unit of time. Higher throughput signifies the ability to handle more requests concurrently and efficiently.
+    \item \textbf{Responce Time:} A Python script was used to measure response time in three phases:
+        Sends 500 individual requests one at a time and records the average response time.
+        Sends 500 groups of 10 simultaneous requests and records the average response time for each group.
+        Sends 500 groups of 50 simultaneous requests and records the average response time for each group.
+This approach allows us to evaluate how each configuration performs under different levels of request concurrency, providing insights into the scalability and efficiency of the system.
+ 
 \end{itemize}
 
-To measure these metrics, a custom Python script was used to simulate load on
-the FaaS service and record response times and request rates. The script was
-configured to send a predefined number of requests to the service for each
-cluster configuration. The collected data was then analyzed to calculate
-average latency and throughput for each setup.
 
 \subsection{Resource Utilization (CPU and Memory)}
 Resource utilization is another important aspect of evaluating FaaS services:
@@ -187,6 +184,8 @@ Resource utilization is another important aspect of evaluating FaaS services:
 
 Resource usage was measured using the Kubernetes `metrics-server` API, which provides real-time data on the CPU and memory usage of pods and containers within the cluster. This data was collected and analyzed for each cluster configuration.
 \newpage
+
+
 \section{Requirements}
 To run the experiments, the following tools need to be installed:
 

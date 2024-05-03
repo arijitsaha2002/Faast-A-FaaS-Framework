@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.15.0 (TeX Live 2022/Debian)  (format=lualatex 2024.4.11)  3 MAY 2024 15:09
+This is LuaHBTeX, Version 1.15.0 (TeX Live 2022/Debian)  (format=lualatex 2024.4.11)  3 MAY 2024 16:40
  restricted system commands enabled.
 **main.tex
 (./main.tex
@@ -212,24 +212,24 @@ Package luatex.def Info: ../images/vpa.png  used on input line 157.
 (luatex.def)             Requested size: 131.52882pt x 121.04701pt.
  [3<../images/vpa.png>]
 LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 
-203.
+202.
 
 (/usr/share/texmf/tex/latex/lm/ot1lmtt.fd
 File: ot1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Overfull \hbox (18.49356pt too wide) in paragraph at lines 217--217
+Overfull \hbox (18.49356pt too wide) in paragraph at lines 216--216
 []\OT1/lmtt/m/n/10 bash deploy_app.sh <app_name> <app_type> <docker_image_name>
  <python-app-file> <requirements-
  []
 
 
-Overfull \hbox (27.7436pt too wide) in paragraph at lines 258--258
+Overfull \hbox (27.7436pt too wide) in paragraph at lines 257--257
  []                                                 \OT1/lmtt/m/n/10 [--resourc
 es-log RESOURCES_LOG] --output-
  []
 
 
-Overfull \hbox (6.74367pt too wide) in paragraph at lines 258--258
+Overfull \hbox (6.74367pt too wide) in paragraph at lines 257--257
  []     \OT1/lmtt/m/n/10 --app-type APP_TYPE   single-pod/two-pod-same-node/two
 -pod-diff-node/hpa/vpa/two-
  []
@@ -698,7 +698,7 @@ Here is how much of LuaTeX's memory you used:
  100000,1977958 words of node,token memory allocated
  378 words of node memory still in use:
    3 hlist, 1 vlist, 1 rule, 2 glue, 50 glue_spec, 1 write nodes
-   avail lists: 2:21,3:640,4:20,5:337,6:59,7:5262,8:1,9:289,10:18,11:422
+   avail lists: 2:21,3:640,4:20,5:337,6:59,7:4687,8:1,9:289,10:18,11:378
  22395 multiletter control sequences out of 65536+600000
  46 fonts using 1913959 bytes
  55i,8n,59p,318b,318s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -708,7 +708,7 @@ f/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx1
 2.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/
 type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.pfb></us
 r/share/texmf/fonts/type1/public/lm/lmtt10.pfb>
-Output written on main.pdf (18 pages, 1190210 bytes).
+Output written on main.pdf (18 pages, 1189648 bytes).
 
 PDF statistics: 171 PDF objects out of 1000 (max. 8388607)
  63 compressed objects within 1 object stream
