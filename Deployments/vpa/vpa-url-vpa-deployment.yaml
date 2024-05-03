@@ -1,0 +1,62 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpa-url-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vpa-url-app
+  template:
+    metadata:
+      labels:
+        app: vpa-url-app 
+    spec:
+      containers:
+      - name: vpa-url-app 
+        image: arijitsaha2002/flask_app:0.5
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000 
+        resources:
+          limits:
+            memory: 50Mi
+          requests:
+            cpu: 20m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vpa-url-service
+  labels:
+    app: vpa-url-app
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 5000 
+  selector:
+    app: vpa-url-app 
+  type: LoadBalancer
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: vpa-development-vpa-url
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: vpa-url-app
+  resourcePolicy:
+    containerPolicies:
+      - containerName: '*'
+        minAllowed:
+          cpu: 20m
+          memory: 50Mi
+        maxAllowed:
+          cpu: 1
+          memory: 100Mi 
+        controlledResources: ["cpu", "memory"]
+

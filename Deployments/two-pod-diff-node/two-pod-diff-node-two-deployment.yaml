@@ -103,24 +103,4 @@ spec:
     port: 80  
     targetPort: 80  
   type: LoadBalancer
----
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: my-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-spec:
-  ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /two-pod-diff-node/(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: two-pod-diff-node-loadbalancer-service
-            port:
-              number: 80 
 

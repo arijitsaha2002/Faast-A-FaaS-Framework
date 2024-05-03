@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: hpa-app 
-        image: arijitsaha2002/flask_app:0.5
+        image: hpa
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000 

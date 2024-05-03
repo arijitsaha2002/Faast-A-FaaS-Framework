@@ -127,28 +127,8 @@ spec:
     port: 80  
     targetPort: 80  
   type: LoadBalancer
----
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: my-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /\$1
-spec:
-  ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /$URL/(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: $APP_NAME-loadbalancer-service
-            port:
-              number: 80 
 " > "$APP_NAME-$APP_TYPE".yaml
-if ! [[ -f ../ingress.csv ]];
+if [[ ! -f ../ingress.csv ]];
 then
     echo "url,service,port" >> ../ingress.csv
 fi;

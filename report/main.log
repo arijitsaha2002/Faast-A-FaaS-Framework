@@ -1,0 +1,273 @@
+This is LuaHBTeX, Version 1.15.0 (TeX Live 2022/Debian)  (format=lualatex 2024.4.11)  3 MAY 2024 11:19
+ restricted system commands enabled.
+**main.tex
+(./main.tex
+LaTeX2e <2022-11-01> patch level 1
+[\directlua]:1: module 'luaotfload-main' not found:
+	no field package.preload['luaotfload-main']
+	[kpse lua searcher] file not found: 'luaotfload-main'
+Error in luaotfload: reverting to OT1 L3 programming layer <2023-01-16>
+Inserting `tracingstacklevels' in `input_level_string'.
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2022/07/02 v1.4n Standard LaTeX file (size option)
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 5
+4.
+
+(/usr/share/texmf/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+))
+\c@part=\count183
+\c@section=\count184
+\c@subsection=\count185
+\c@subsubsection=\count186
+\c@paragraph=\count187
+\c@subparagraph=\count188
+\c@figure=\count189
+\c@table=\count190
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen139
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: luatex.def on input line 107.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/luatex.def
+File: luatex.def 2022/09/22 v1.2d Graphics/color driver for luatex
+))
+\Gin@req@height=\dimen140
+\Gin@req@width=\dimen141
+)
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))
+\Gm@cnth=\count191
+\Gm@cntv=\count192
+\c@Gm@tempcnt=\count193
+\Gm@bindingoffset=\dimen142
+\Gm@wd@mp=\dimen143
+\Gm@odd@mp=\dimen144
+\Gm@even@mp=\dimen145
+\Gm@layoutwidth=\dimen146
+\Gm@layoutheight=\dimen147
+\Gm@layouthoffset=\dimen148
+\Gm@layoutvoffset=\dimen149
+\Gm@dimlist=\toks17
+)
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
+File: l3backend-luatex.def 2023-01-16 L3 backend support: PDF output (LuaTeX)
+\l__color_backend_stack_int=\count194
+\l__pdf_internal_box=\box51
+)
+(./main.aux)
+\openout1 = main.aux
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 10.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 1
+0.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2022/07/10 v2.5l Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count195
+\scratchdimen=\dimen150
+\scratchbox=\box52
+\nofMPsegments=\count196
+\nofMParguments=\count197
+\everyMPshowfont=\toks18
+\MPscratchCnt=\count198
+\MPscratchDim=\dimen151
+\MPnumerator=\count199
+\makeMPintoPDFobject=\count266
+\everyMPtoPDFconversion=\toks19
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+*geometry* driver: auto-detecting
+*geometry* detected driver: luatex
+*geometry* verbose mode - [ preamble ] result:
+* driver: luatex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 11.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 11.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 11.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 35.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 35.
+<../images/single_pod.png, id=1, 657.45625pt x 618.31pt>
+File: ../images/single_pod.png Graphic file (type png)
+<use ../images/single_pod.png>
+Package luatex.def Info: ../images/single_pod.png  used on input line 39.
+(luatex.def)             Requested size: 75.15851pt x 70.67487pt.
+<../images/one_pod_two_container.png, id=2, 774.895pt x 707.64375pt>
+File: ../images/one_pod_two_container.png Graphic file (type png)
+<use ../images/one_pod_two_container.png>
+Package luatex.def Info: ../images/one_pod_two_container.png  used on input lin
+e 60.
+(luatex.def)             Requested size: 75.15851pt x 68.63055pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<../images/one_node_two_pod.png, id=3, 794.97pt x 733.74126pt>
+File: ../images/one_node_two_pod.png Graphic file (type png)
+<use ../images/one_node_two_pod.png>
+Package luatex.def Info: ../images/one_node_two_pod.png  used on input line 81.
+
+(luatex.def)             Requested size: 75.15851pt x 69.37025pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<../images/two_node.png, id=4, 838.13126pt x 701.62125pt>
+File: ../images/two_node.png Graphic file (type png)
+<use ../images/two_node.png>
+Package luatex.def Info: ../images/two_node.png  used on input line 103.
+(luatex.def)             Requested size: 75.15851pt x 62.90765pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<../images/hpa.png, id=5, 710.655pt x 655.44875pt>
+File: ../images/hpa.png Graphic file (type png)
+<use ../images/hpa.png>
+Package luatex.def Info: ../images/hpa.png  used on input line 125.
+(luatex.def)             Requested size: 75.15851pt x 69.31921pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<../images/vpa.png, id=6, 730.73pt x 672.5125pt>
+File: ../images/vpa.png Graphic file (type png)
+<use ../images/vpa.png>
+Package luatex.def Info: ../images/vpa.png  used on input line 145.
+(luatex.def)             Requested size: 75.15851pt x 69.16386pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}<../images/single_pod.png>] 
+[2<../images/one_pod_two_container.png><../images/one_node_two_pod.png>]
+[3<../images/two_node.png><../images/hpa.png>]
+LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 
+208.
+
+(/usr/share/texmf/tex/latex/lm/ot1lmtt.fd
+File: ot1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Overfull \hbox (18.49356pt too wide) in paragraph at lines 222--222
+[]\OT1/lmtt/m/n/10 bash deploy_app.sh <app_name> <app_type> <docker_image_name>
+ <python-app-file> <requirements-
+ []
+
+
+Overfull \hbox (27.7436pt too wide) in paragraph at lines 263--263
+ []                                                 \OT1/lmtt/m/n/10 [--resourc
+es-log RESOURCES_LOG] --output-
+ []
+
+
+Overfull \hbox (6.74367pt too wide) in paragraph at lines 263--263
+ []     \OT1/lmtt/m/n/10 --app-type APP_TYPE   single-pod/two-pod-same-node/two
+-pod-diff-node/hpa/vpa/two-
+ []
+
+[4<../images/vpa.png>] [5] (./main.aux))
+
+Here is how much of LuaTeX's memory you used:
+ 2136 strings out of 478382
+ 100000,1977958 words of node,token memory allocated
+ 378 words of node memory still in use:
+   3 hlist, 1 vlist, 1 rule, 2 glue, 50 glue_spec, 1 write nodes
+   avail lists: 2:20,3:644,4:18,5:429,6:60,7:7992,8:1,9:291,10:16,11:644
+ 22164 multiletter control sequences out of 65536+600000
+ 46 fonts using 1913959 bytes
+ 55i,8n,59p,348b,322s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-rmtt.enc}{/usr/share/texmf/fonts/enc/dvi
+ps/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}</usr/share/texm
+f/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx1
+2.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/
+type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.pfb></us
+r/share/texmf/fonts/type1/public/lm/lmtt10.pfb>
+Output written on main.pdf (5 pages, 372054 bytes).
+
+PDF statistics: 58 PDF objects out of 1000 (max. 8388607)
+ 35 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 131072)
+ 1 words of extra memory for PDF output out of 10000 (max. 100000000)
+

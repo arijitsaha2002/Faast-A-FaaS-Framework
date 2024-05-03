@@ -83,7 +83,7 @@ spec:
           memory: 100Mi 
         controlledResources: [\"cpu\", \"memory\"]
 " > "$APP_NAME-$APP_TYPE".yaml
-if ! [[ -f ../ingress.csv ]];
+if [[ ! -f ../ingress.csv ]];
 then
     echo "url,service,port" >> ../ingress.csv
 fi;

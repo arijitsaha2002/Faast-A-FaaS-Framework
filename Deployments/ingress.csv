@@ -1,7 +1,7 @@
 url,service,port
+single-pod,single-pod-pod-service,8080
+two-pod-same-node,two-pod-same-node-nginx-service,80
 hpa,hpa-service,8080
-single-url,single-pod-service,8080
-two-pod,two-name-nginx-service,80
-two-cont,nginx-loadbalancer-service-two-cont,80
 vpa,vpa-service,8080
-two-node,two-node-loadbalancer-service,80
+two-container,nginx-loadbalancer-service-two-container,80
+two-pod-diff-node,two-pod-diff-node-loadbalancer-service,80

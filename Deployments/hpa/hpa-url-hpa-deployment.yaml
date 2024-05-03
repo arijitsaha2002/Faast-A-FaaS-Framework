@@ -1,0 +1,62 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hpa-url-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hpa-url-app
+  template:
+    metadata:
+      labels:
+        app: hpa-url-app 
+    spec:
+      containers:
+      - name: hpa-url-app 
+        image: arijitsaha2002/flask_app:0.5
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000 
+        resources:
+          limits:
+            memory: 50Mi
+          requests:
+            cpu: 20m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hpa-url-service
+  labels:
+    app: hpa-url-app
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 5000 
+  selector:
+    app: hpa-url-app 
+  type: LoadBalancer
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+ name: hpa-deployment-hpa-url
+spec:
+ scaleTargetRef:
+   apiVersion: apps/v1
+   kind: Deployment
+   name: hpa-url-app
+ minReplicas: 1
+ maxReplicas: 10
+ metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+---
+

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: vpa-app 
-        image: arijitsaha2002/flask_app:0.5
+        image: vpa
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000 

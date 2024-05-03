@@ -83,7 +83,7 @@ spec:
         averageUtilization: 50
 ---
 " > "$APP_NAME-$APP_TYPE".yaml
-if ! [[ -f ../ingress.csv ]];
+if [[ ! -f ../ingress.csv ]];
 then
     echo "url,service,port" >> ../ingress.csv
 fi;
@@ -92,5 +92,6 @@ echo "$URL,$APP_NAME-service,8080" >> ../ingress.csv
 kubectl apply -f "$APP_NAME-$APP_TYPE".yaml
 cd ../
 ./update-ingress.py
+sleep 2;
 kubectl apply -f "./ingress.yaml"
 

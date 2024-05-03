@@ -57,7 +57,7 @@ spec:
   type: LoadBalancer
 " > "$APP_NAME-$APP_TYPE".yaml
 
-if ! [[ -f ../ingress.csv ]];
+if [[ ! -f ../ingress.csv ]];
 then
     echo "url,service,port" >> ../ingress.csv
 fi;

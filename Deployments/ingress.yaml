@@ -10,6 +10,22 @@ spec:
   rules:
   - http:
       paths:
+      - path: /single-pod/(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: single-pod-pod-service
+            port:
+              number: 8080 
+    
+      - path: /two-pod-same-node/(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: two-pod-same-node-nginx-service
+            port:
+              number: 80 
+    
       - path: /hpa/(.*)
         pathType: ImplementationSpecific
         backend:
@@ -17,30 +33,6 @@ spec:
             name: hpa-service
             port:
               number: 8080 
-    
-      - path: /single-url/(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: single-pod-service
-            port:
-              number: 8080 
-    
-      - path: /two-pod/(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: two-name-nginx-service
-            port:
-              number: 80 
-    
-      - path: /two-cont/(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: nginx-loadbalancer-service-two-cont
-            port:
-              number: 80 
     
       - path: /vpa/(.*)
         pathType: ImplementationSpecific
@@ -50,11 +42,19 @@ spec:
             port:
               number: 8080 
     
-      - path: /two-node/(.*)
+      - path: /two-container/(.*)
         pathType: ImplementationSpecific
         backend:
           service:
-            name: two-node-loadbalancer-service
+            name: nginx-loadbalancer-service-two-container
+            port:
+              number: 80 
+    
+      - path: /two-pod-diff-node/(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: two-pod-diff-node-loadbalancer-service
             port:
               number: 80 
     
