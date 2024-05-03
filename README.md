@@ -92,7 +92,7 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
     ```bash
     bash deploy_app.sh <app_name> <app_type> <docker_image_name> <python-app-file> <requirements-file> <port> <map_url>
     ```
-- Run the following command with the appropriate *<url>* to unmap a url : 
+- Run the following command with the appropriate url to unmap a url : 
     ```bash
     bash delete_url.sh <url>
     ```
