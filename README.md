@@ -56,7 +56,7 @@ We utilize *kubernetes* tool in order to create cluster environment and deploy F
 
 ### Metrics
 1) **Latency and Throughput** 
-    - We measure the latency and throughput of the FaaS service using *wrk* tool. 
+    - We measure the latency and throughput of the FaaS service using python script. 
     - We perform the analysis for different cluster configurations and compare the results. 
     - The following image shows the latency and throughput comparison for different cluster configurations:
     ![](latency_throughput.png)

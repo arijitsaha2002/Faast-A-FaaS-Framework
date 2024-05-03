@@ -1,0 +1,33 @@
+\section{Comparison of Average Response Times}
+
+\begin{table}[h]
+    \centering
+    \caption{Average Response Times across Configurations}
+    \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Configuration} & \textbf{Average Response Time (s)} \\
+        \hline
+        Horizontal Pod Autoscaler (HPA) & 0.02 - 0.04 \\
+        Vertical Pod Autoscaler (VPA) & 0.1 - 0.15 \\
+        Single Pod & 0.1 - 0.15 \\
+        Two-Container & 0.04 - 0.05 \\
+        Two-Pod Same Node & 0.03 - 0.04 \\
+        Two-Pod Different Node & 0.04 - 0.045 \\
+        \hline
+    \end{tabular}
+    \label{tab:response_times}
+\end{table}
+
+\noindent This table summarizes the average response times across the six configurations:
+
+\begin{itemize}
+    \item \textbf{HPA:} Offers the lowest average response time, ranging from 0.02 to 0.04 seconds. This configuration scales out the number of pods effectively to handle incoming requests, resulting in fast response times.
+    \item \textbf{VPA:} The average response time for VPA is higher, ranging from 0.1 to 0.15 seconds, possibly due to dynamic adjustments in resource allocation.
+    \item \textbf{Single Pod:} Similar to VPA, single pod configurations exhibit an average response time of 0.1 to 0.15 seconds, as a single pod manages all incoming requests.
+    \item \textbf{Two-Container:} The two-container configuration offers an average response time between 0.04 and 0.05 seconds. This setup distributes the workload across multiple containers within a single pod, resulting in relatively low response times.
+    \item \textbf{Two-Pod Same Node:} This configuration demonstrates average response times between 0.03 and 0.04 seconds, distributing the workload across two pods on a single node for efficient request handling.
+    \item \textbf{Two-Pod Different Node:} This setup results in average response times ranging from 0.04 to 0.045 seconds. Distributing the workload across two pods on different nodes may lead to more balanced response times.
+\end{itemize}
+
+In summary, HPA demonstrates the lowest average response times, while VPA and single pod setups show higher response times. The other configurations offer varying levels of performance based on how the workload is distributed.
+

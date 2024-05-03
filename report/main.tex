@@ -25,50 +25,56 @@ The project considers the following cluster configurations:
 
 \subsection{Single Pod Cluster}
 \nobreak
-\begin{figure}
-    \begin{minipage}[u]{0.6\textwidth}
-        %\flushleft
+\vspace{-30px}
+\begin{figure}[h]
+    \begin{minipage}[t]{0.6\textwidth}
+        \vspace{-120px}
         This configuration consists of a single pod with a single container deployed on
         a single-node cluster. The pod hosts the FaaS service, and all incoming
         requests are directed to the single container within the pod. This simple setup
         serves as a baseline for comparison with other configurations.
-    \end{minipage}%
+    \end{minipage}
     \hfill
-    \begin{minipage}[u]{0.4\textwidth}
+    \begin{minipage}[b]{0.4\textwidth}
+        %\vspace{-20px}
         \centering
-        \includegraphics[width=0.4\textwidth]{../images/single_pod.png}
+        \includegraphics[width=0.7\textwidth]{../images/single_pod.png}
         \caption{Single Pod Cluster}
         \label{fig:single_pod_cluster}
     \end{minipage}
 \end{figure}
 
-
+\vspace{-10px}
 \subsection{Single Pod with Multi-Container}
 \nobreak
+\vspace{-30px}
 \begin{figure}[h]
-    \begin{minipage}[b]{0.6\textwidth}
-        \flushleft
-        In this configuration, a single pod contains multiple containers that run the
-        FaaS service on a single-node cluster. An Nginx load balancer pod is also
-        deployed to route incoming requests to the containers within the pod. This
-        setup allows testing the efficiency of using multiple containers within a
-        single pod.
+    \begin{minipage}[t]{0.6\textwidth}
+        \vspace{-120px}
+        In this configuration, a single pod contains multiple containers that
+        run the FaaS service on a single-node cluster. An Nginx load balancer
+        pod is also deployed to route incoming requests to the containers
+        within the pod. This setup allows testing the efficiency of using
+        multiple containers within a single pod.
     \end{minipage}%
     \hfill
     \begin{minipage}[b]{0.4\textwidth}
+        %\vspace{-20px}
         \centering
-        \includegraphics[width=0.4\textwidth]{../images/one_pod_two_container.png}
+        \includegraphics[width=0.7\textwidth]{../images/one_pod_two_container.png}
         \caption{Single Pod with Multi-Container}
         \label{fig:single_pod_multi_container}
     \end{minipage}
 \end{figure}
+\newpage
 
-
+\vspace{-10px}
 \subsection{Multi-Pod with Single Node}
 \nobreak
+\vspace{-30px}
 \begin{figure}[h]
-    \begin{minipage}[b]{0.6\textwidth}
-        \flushleft
+    \begin{minipage}[t]{0.6\textwidth}
+        \vspace{-120px}
         This configuration includes multiple pods, each with one container running the
         FaaS service, deployed on a single node. An Nginx load balancer pod manages
         incoming requests, routing them to the appropriate FaaS service pods. This
@@ -78,19 +84,19 @@ The project considers the following cluster configurations:
     \hfill
     \begin{minipage}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=0.4\textwidth]{../images/one_node_two_pod.png}
+        \includegraphics[width=0.7\textwidth]{../images/one_node_two_pod.png}
         \caption{Multi-Pod with Single Node}
         \label{fig:multi_pod_single_node}
     \end{minipage}
 \end{figure}
 
-
-
+\vspace{-10px}
 \subsection{Multi-Pod with Multi-Node}
 \nobreak
+\vspace{-30px}
 \begin{figure}[h]
-    \begin{minipage}[b]{0.6\textwidth}
-        \flushleft
+    \begin{minipage}[t]{0.6\textwidth}
+        \vspace{-100px}
         In this configuration, multiple pods are distributed across two different
         nodes, with each pod containing one container running the FaaS service. An
         Nginx load balancer pod manages incoming requests, distributing them evenly
@@ -100,18 +106,20 @@ The project considers the following cluster configurations:
     \hfill
     \begin{minipage}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=0.4\textwidth]{../images/two_node.png}
+        \includegraphics[width=0.7\textwidth]{../images/two_node.png}
         \caption{Multi-Pod with Multi-Node}
         \label{fig:multi_pod_multi_node}
     \end{minipage}
 \end{figure}
 
 
+\vspace{-10px}
 \subsection{Horizontal Pod Autoscaler (HPA)}
 \nobreak
+\vspace{-30px}
 \begin{figure}[h]
-    \begin{minipage}[b]{0.6\textwidth}
-        \flushleft
+    \begin{minipage}[t]{0.6\textwidth}
+        \vspace{-120px}
         The Horizontal Pod Autoscaler (HPA) is a Kubernetes feature that automatically
         scales the number of pods in response to changes in resource utilization or
         other metrics. In this configuration, multiple pods (initially one) are
@@ -122,16 +130,20 @@ The project considers the following cluster configurations:
     \hfill
     \begin{minipage}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=0.4\textwidth]{../images/hpa.png}
+        \includegraphics[width=0.7\textwidth]{../images/hpa.png}
         \caption{Horizontal Pod Autoscaler}
         \label{fig:hpa}
     \end{minipage}
 \end{figure}
 
+\newpage
+\vspace{-10px}
 \subsection{Vertical Pod Autoscaler (VPA)}
+\nobreak
+\vspace{-30px}
 \begin{figure}[h]
-    \begin{minipage}[b]{0.6\textwidth}
-        \flushleft
+    \begin{minipage}[t]{0.6\textwidth}
+        \vspace{-120px}
         The Vertical Pod Autoscaler (VPA) is a Kubernetes feature that adjusts the
         resource limits and requests of a pod based on its actual usage. In this
         configuration, a single pod is deployed with VPA enabled in a single-node
@@ -142,12 +154,12 @@ The project considers the following cluster configurations:
     \hfill
     \begin{minipage}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=0.4\textwidth]{../images/vpa.png}
+        \includegraphics[width=0.7\textwidth]{../images/vpa.png}
         \caption{Vertical Pod Autoscaler}
         \label{fig:vpa}
     \end{minipage}
 \end{figure}
-\newpage
+
 \section{Metrics}
 This section discusses the metrics used to evaluate the performance and resource utilization of the Function as a Service (FaaS) platform across different cluster configurations. The two main types of workloads tested were a simple loop and a large Lorem Ipsum generator.
 
@@ -159,7 +171,11 @@ Latency and throughput are critical performance metrics for evaluating FaaS serv
     \item \textbf{Throughput:} The number of requests that can be processed per unit of time. Higher throughput signifies the ability to handle more requests concurrently and efficiently.
 \end{itemize}
 
-To measure these metrics, the `wrk` tool was used to simulate load on the FaaS service and capture response times and request rates. `wrk` was configured to send a defined number of requests to the service for each cluster configuration. The results were then analyzed to determine the average latency and throughput.
+To measure these metrics, a custom Python script was used to simulate load on
+the FaaS service and record response times and request rates. The script was
+configured to send a predefined number of requests to the service for each
+cluster configuration. The collected data was then analyzed to calculate
+average latency and throughput for each setup.
 
 \subsection{Resource Utilization (CPU and Memory)}
 Resource utilization is another important aspect of evaluating FaaS services:
@@ -170,28 +186,7 @@ Resource utilization is another important aspect of evaluating FaaS services:
 \end{itemize}
 
 Resource usage was measured using the Kubernetes `metrics-server` API, which provides real-time data on the CPU and memory usage of pods and containers within the cluster. This data was collected and analyzed for each cluster configuration.
-
-\subsection{Workloads for Testing}
-The project tested the FaaS platform using two types of simple workloads:
-
-\begin{itemize}
-    \item \textbf{Beautiful Loops:} This workload runs a for loop performing simple computations, providing insight into the performance of the FaaS service under repetitive tasks.
-    \item \textbf{Large Lorem Ipsum Generator:} This workload generates a large block of Lorem Ipsum text and returns it as a response, testing the service's ability to handle data-heavy tasks and manage memory usage efficiently.
-\end{itemize}
-
-These workloads were chosen to provide a diverse set of scenarios for testing the FaaS service. The results of latency, throughput, and resource utilization were measured and compared across different cluster configurations.
-
-In summary, these metrics help assess the FaaS platform's performance and resource usage under varying conditions, providing valuable insights for optimizing serverless applications.
-
-\section{Workloads for Testing}
-The project uses two types of simple stateless workloads to test various cluster environments:
-
-\subsection{Beautiful Loops}
-This workload runs a for loop performing some simple computations.
-
-\subsection{Random Weird Text}
-This workload generates some random text and returns it as a response.
-
+\newpage
 \section{Requirements}
 To run the experiments, the following tools need to be installed:
 
@@ -263,4 +258,12 @@ To generate analysis results, follow these steps:
    \end{verbatim}
 \end{enumerate}
 
+\section{Analysis}
+\input{hpa.tex}
+\input{vpa.tex}
+\input{single-pod.tex}
+\input{two-container.tex}
+\input{two-pod-same-node.tex}
+\input{two-pod-diff-node.tex}
+\input{comparison.tex}
 \end{document}
